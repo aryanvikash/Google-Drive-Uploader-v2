@@ -1,0 +1,21 @@
+{
+  "name": "Google Drive Uploader",
+  "description": "A Google Drive Uploader Bot",
+  "repository": "https://github.com/aryanvikash/ariabotBeta",
+  "keywords": [
+    "telegram"
+  ],
+  "addons": [
+  ],
+  "buildpacks": [{
+    "url": "https://github.com/amivin/aria2-heroku"
+  }, {
+    "url": "heroku/python"
+  }],
+  "formation": {
+    "worker": {
+      "quantity": 1,
+      "size": "free"
+    }
+  }
+}

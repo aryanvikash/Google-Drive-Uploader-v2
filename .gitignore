@@ -1,0 +1,6 @@
+Downloads/*
+*.session
+__pycache__/
+*.pyc
+creds/*
+log.txt
