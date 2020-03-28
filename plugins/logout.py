@@ -4,7 +4,7 @@ from bot.customFilters.authchecker import is_auth
 # from plugins.support import TEXT
 import psycopg2
 from bot import Post_url, Creds_path, LOGGER
-from pyrogram import Client,Filters
+from pyrogram import Client, Filters
 
 conn = psycopg2.connect(Post_url)
 cur = conn.cursor()

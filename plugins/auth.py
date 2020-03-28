@@ -1,10 +1,7 @@
 from pydrive.auth import GoogleAuth
-from pydrive.drive import GoogleDrive
-# from bot.customFilters.authchecker import is_auth
-# from plugins.support import TEXT
 from bot import Creds_path, LOGGER
 import os
-from pyrogram import Client,Filters ,InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram import Client, Filters, InlineKeyboardButton, InlineKeyboardMarkup
 from bot.drivefunc.Tokenverify import token_make
 
 

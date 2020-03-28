@@ -1,6 +1,7 @@
-from pyrogram import Client ,Filters
+from pyrogram import Client, Filters
 
-@Client.on_message(Filters.command(["help"]))
+
+@Client.on_message(Filters.command(["help"]), group=-2)
 async def help_text(c, m):
     msg = ""
     msg += "/login - `Login Account` \n"
@@ -11,4 +12,3 @@ async def help_text(c, m):
     msg += "Join @aryan_bots For Updates"
 
     await m.reply_text(msg)
-

@@ -6,8 +6,9 @@ from bot.helper.utils import Human_size
 import asyncio
 from bot import LOGGER
 from bot.customFilters.authchecker import is_auth_user
-from pyrogram import Client ,Filters
+from pyrogram import Client, Filters
 from bot.customFilters.authchecker import is_auth
+
 
 @Client.on_message(Filters.media & is_auth())
 async def Document_Downloader(client, messsage):

@@ -10,7 +10,7 @@ def is_auth():
             return True
         else:
             return token_make(None, m)
-            
+
     return Filters.create(is_auth_checker, "AuthFilterCreate")
 
 

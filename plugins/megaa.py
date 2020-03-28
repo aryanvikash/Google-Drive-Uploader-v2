@@ -4,8 +4,9 @@ import asyncio
 from bot.helper.utils import Human_size
 from bot import DOWNLOAD_LOCATION, LOGGER, Creds_path
 from bot.drivefunc.gdriveUpload import gupload
-from pyrogram import Client,Filters
+from pyrogram import Client, Filters
 from bot.customFilters.authchecker import is_auth
+
 
 @Client.on_message(Filters.regex(r"^https://mega.") & is_auth())
 async def mega_download(c, message):

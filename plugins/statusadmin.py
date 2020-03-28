@@ -1,9 +1,11 @@
 import aria2p
 from bot import aria2
-from pyrogram import Client,Filters
+from pyrogram import Client, Filters
 from bot.customFilters.admin_filter import is_admin
-#TODO Add all running downloads in status
-@Client.on_message(Filters.command(["status"])& is_admin)
+# TODO Add all running downloads in status
+
+
+@Client.on_message(Filters.command(["status"]) & is_admin)
 async def show_status(client, message):
     files = aria2.get_downloads()
     status_List = ""
@@ -24,13 +26,13 @@ async def show_status(client, message):
         if not status_List:
             await message.reply_text("no active Download")
         else:
-            if len(status_List) >4096:
-                with open("status.html","w") as f:
+            if len(status_List) > 4096:
+                with open("status.html", "w") as f:
                     f.write(status_List)
 
                 await message.reply_document(document="status.html")
             else:
                 await message.reply_text(status_List)
-            
+
     except Exception as e:
         await message.reply_text(e)

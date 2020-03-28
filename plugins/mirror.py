@@ -5,10 +5,9 @@ from bot import (aria2, DownloadDict, DOWNLOAD_LOCATION,
 from bot.ariaHelper.ariaDownload import add_url
 from bot.ariaHelper.stauts import progress
 import time
-from pyrogram import  Client ,Filters,ContinuePropagation
+from pyrogram import Client, Filters, ContinuePropagation
 import aiohttp
 from bot.customFilters.authchecker import is_auth
-
 
 
 async def direct_link_checker_async(flt, m):
@@ -26,7 +25,8 @@ async def direct_link_checker_async(flt, m):
         return False
     return True
 
-@Client.on_message(Filters.regex(r"^(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+")& is_auth())
+
+@Client.on_message(Filters.regex(r"^(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+") & is_auth())
 async def mirror(client, message):
     is_direct = await direct_link_checker_async(client, message)
     if not is_direct:
@@ -43,7 +43,7 @@ async def mirror(client, message):
         str(time.time())
     )
     # if os.path.isfile(os.path.join(Creds_path, ID)):
-    
+
     sentm = await message.reply_text(f"<code> Processing Your Uri ...</code>")
 
     msg = message.text.strip()
@@ -55,5 +55,5 @@ async def mirror(client, message):
             DownloadDict[uid] = download  # Download contains gid
             print("UID:", message.from_user.id)
             await progress(aria2=aria2, gid=DownloadDict[uid], event=sentm, ID=current_user_id)
-    
+
         # await message.reply_text("You Are Not Authorised use /login 😞")

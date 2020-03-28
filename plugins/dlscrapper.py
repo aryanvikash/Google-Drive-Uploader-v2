@@ -6,15 +6,16 @@ from bot.ariaHelper.ariaDownload import add_url
 from bot.ariaHelper.stauts import progress
 from bot import aria2, DOWNLOAD_LOCATION, DownloadDict
 from bs4 import BeautifulSoup as soup
-from pyrogram import Client ,Filters
+from pyrogram import Client, Filters
 from bot.customFilters.authchecker import is_auth
 
 url = "https://www76.zippyshare.com/v/uJ844Wu1/file.html"
 
-@Client.on_message(Filters.regex(r"\bhttps?://.*mediafire\.com\S")& is_auth() | 
-                Filters.regex(r"\bhttps?://.*zippyshare\.com\S") & is_auth())
+
+@Client.on_message(Filters.regex(r"\bhttps?://.*mediafire\.com\S") & is_auth() |
+                   Filters.regex(r"\bhttps?://.*zippyshare\.com\S") & is_auth())
 async def scrapperdownload(c, message):
-    
+
     url = message.text.strip()
     url = url.split(" ")[-1]
     uid = str(message.from_user.id)
@@ -22,10 +23,10 @@ async def scrapperdownload(c, message):
         if "mediafire.com" in url:
             sentm = await message.reply_text("`Mediafire Link Processing ...`")
             directLink = await mediafireLink(url)
-        else :
+        else:
             sentm = await message.reply_text("`ZippyShare Link Processing ...`")
-            directLink= await zippyLink(url)
-        
+            directLink = await zippyLink(url)
+
         download = await add_url(aria2, directLink, DOWNLOAD_LOCATION)
         if download:
             DownloadDict[uid] = download  # Download contains gid
@@ -43,8 +44,10 @@ async def zippyLink(url):
     scripts = page_soup.find_all("script", {"type": "text/javascript"})
     for script in scripts:
         if "getElementById('dlbutton')" in script.text:
-            url_raw = re.search('= (?P<url>\".+\" \+ (?P<math>\(.+\)) .+);', script.text).group('url')
-            math = re.search('= (?P<url>\".+\" \+ (?P<math>\(.+\)) .+);', script.text).group('math')
+            url_raw = re.search(
+                '= (?P<url>\".+\" \+ (?P<math>\(.+\)) .+);', script.text).group('url')
+            math = re.search(
+                '= (?P<url>\".+\" \+ (?P<math>\(.+\)) .+);', script.text).group('math')
             dl_url = url_raw.replace(math, '"' + str(eval(math)) + '"')
             break
     dl_url = base_url + eval(dl_url)
@@ -53,18 +56,18 @@ async def zippyLink(url):
 
 
 async def mediafireLink(url):
-        session = aiohttp.ClientSession()
-        response = await session.get(url)
+    session = aiohttp.ClientSession()
+    response = await session.get(url)
 
-        page = soup(await response.text(), 'lxml')
-        info = page.find('a', {'aria-label': 'Download file'})
-        dl_url = info.get('href')
-        await session.close()
-        # size = re.findall(r'\(.*\)', info.text)[0]
-        # name = page.find('div', {'class': 'filename'}).text
-        # reply += f'[{name} {size}]({dl_url})\n'
-        
-        return dl_url
+    page = soup(await response.text(), 'lxml')
+    info = page.find('a', {'aria-label': 'Download file'})
+    dl_url = info.get('href')
+    await session.close()
+    # size = re.findall(r'\(.*\)', info.text)[0]
+    # name = page.find('div', {'class': 'filename'}).text
+    # reply += f'[{name} {size}]({dl_url})\n'
+
+    return dl_url
 
 
 # async def sourceforge(url: str) -> str:

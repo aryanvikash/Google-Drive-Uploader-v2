@@ -1,7 +1,8 @@
-from pyrogram import Client,Filters
-from bot.customFilters.authchecker import is_auth
+from pyrogram import Client, Filters
 import os
-@Client.on_message(Filters.command(["start"]))
+
+
+@Client.on_message(Filters.command(["start"]), group=-2)
 async def start(client, message):
     print(os.system("ls"))
     await message.reply_text(f"""Hey <b>{message.from_user.first_name}</b>

@@ -1,10 +1,9 @@
-# import asyncio
-import aria2p
 import os
 from bot import (DownloadDict, LOGGER, aria2, is_admin)
 import time
-from pyrogram import Client,Filters
+from pyrogram import Client, Filters
 from bot.customFilters.authchecker import is_auth
+
 
 @Client.on_message(Filters.command(["cancel"]))
 async def cancel(client, message):

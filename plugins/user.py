@@ -5,7 +5,7 @@ from bot import Creds_path, LOGGER
 import os
 import os.path as path
 from bot.helper.utils import Human_size
-from pyrogram import Client , Filters
+from pyrogram import Client, Filters
 
 
 @Client.on_message(Filters.command(["info"]))
@@ -14,9 +14,11 @@ async def user_info(c, m):
     is_login = False
     if os.path.isfile(os.path.join(Creds_path, ID)):
 
-        drive: GoogleDrive
+        drive:
+            GoogleDrive
 
-        gauth: drive.GoogleAuth = GoogleAuth()
+        gauth:
+            drive.GoogleAuth = GoogleAuth()
 
         gauth.LoadCredentialsFile(path.join(Creds_path, ID))
 
