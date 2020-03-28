@@ -128,6 +128,10 @@ class mydrive:
             # Refresh them if expired
             self.gauth.Refresh()
             self.gauth.SaveCredentialsFile(path.join(Creds_path, ID))
+            self.gauth.Authorize()
+            self.drive = GoogleDrive(self.gauth)
+            self.http = self.drive.auth.Get_Http_Object()
+            self.service = self.drive.auth.service
         else:
             # Initialize the saved creds
             self.gauth.Authorize()
