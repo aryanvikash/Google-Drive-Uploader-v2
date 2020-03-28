@@ -16,11 +16,9 @@ async def user_info(c, m):
     is_login = False
     if os.path.isfile(os.path.join(Creds_path, ID)):
 
-        drive:
-            GoogleDrive
+        drive:GoogleDrive
 
-        gauth:
-            drive.GoogleAuth = GoogleAuth()
+        gauth:drive.GoogleAuth = GoogleAuth()
 
         gauth.LoadCredentialsFile(path.join(Creds_path, ID))
 
