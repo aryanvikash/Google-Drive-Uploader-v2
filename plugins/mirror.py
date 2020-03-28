@@ -10,7 +10,7 @@ import aiohttp
 from bot.customFilters.authchecker import is_auth
 
 
-@Client.on_message(Filters.regex(r"^(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+")& is_auth())
+
 async def direct_link_checker_async(flt, m):
     url = m.text.strip()
     if url.endswith("m3u8"):
@@ -26,7 +26,7 @@ async def direct_link_checker_async(flt, m):
         return False
     return True
 
-
+@Client.on_message(Filters.regex(r"^(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+")& is_auth())
 async def mirror(client, message):
     is_direct = await direct_link_checker_async(client, message)
     if not is_direct:
