@@ -1,12 +1,14 @@
 from pydrive.auth import GoogleAuth
 from bot import Creds_path, LOGGER
 import os
-from pyrogram import Client, Filters, InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram import Client, Filters, InlineKeyboardButton, InlineKeyboardMarkup, StopPropagation
+from bot.drivefunc.Tokenverify import token_make
 
 
 @Client.on_message(Filters.command(["login"]), group=-2)
 async def Auth(client, message):
     LOGGER.info(f"{message.from_user.username} : is Trying to verify")
+    token_make(client, message)
     gauth = GoogleAuth()
     ID = str(message.from_user.id)
     try:
@@ -32,3 +34,4 @@ async def Auth(client, message):
         # Initialize the saved creds
         gauth.Authorize()
         await message.reply_text("You are Already Authorised 😴")
+    raise StopPropagation

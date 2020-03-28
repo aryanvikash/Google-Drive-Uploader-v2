@@ -5,11 +5,13 @@ from bot import Creds_path, LOGGER
 import os
 import os.path as path
 from bot.helper.utils import Human_size
-from pyrogram import Client, Filters
+from pyrogram import Client, Filters, StopPropagation
+from bot.drivefunc.Tokenverify import token_make
 
 
-@Client.on_message(Filters.command(["info"]) & group=-2)
+@Client.on_message(Filters.command(["info"]), group=-2)
 async def user_info(c, m):
+    token_make(c, m)
     ID = str(m.from_user.id)
     is_login = False
     if os.path.isfile(os.path.join(Creds_path, ID)):
@@ -55,7 +57,7 @@ async def user_info(c, m):
         msg += f"UserId :`{m.from_user.id}` \n"
         msg += f"Login : `{is_login}`"
         await m.reply_text(msg)
-
+    raise StopPropagation
 
 #     {
 #   'name': 'Roberta Donaldson',

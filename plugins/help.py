@@ -1,4 +1,4 @@
-from pyrogram import Client, Filters
+from pyrogram import Client, Filters, StopPropagation
 
 
 @Client.on_message(Filters.command(["help"]), group=-2)
@@ -12,3 +12,4 @@ async def help_text(c, m):
     msg += "Join @aryan_bots For Updates"
 
     await m.reply_text(msg)
+    raise StopPropagation

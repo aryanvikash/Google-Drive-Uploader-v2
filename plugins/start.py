@@ -1,4 +1,4 @@
-from pyrogram import Client, Filters
+from pyrogram import Client, Filters, StopPropagation
 import os
 
 
@@ -9,3 +9,4 @@ async def start(client, message):
         \nCheck  /help Command for More info
         \nJoin @aryan_bots
         \n\nBug report: @aryanvikash""")
+    raise StopPropagation
