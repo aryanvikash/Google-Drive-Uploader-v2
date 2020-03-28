@@ -3,10 +3,9 @@ from bot.drivefunc.gdriveUpload import mydrive
 import asyncio
 from bot.helper.utils import Human_size
 from pyrogram import Client, Filters
-from bot.customFilters.authchecker import is_auth
 
 
-@Client.on_message(Filters.regex(r"^https://drive.google.com") & is_auth())
+@Client.on_message(Filters.regex(r"^https://drive.google.com"))
 async def clone_to_gdrive(c, m):
     url = m.text.strip()
     ID = str(m.from_user.id)

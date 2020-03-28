@@ -5,17 +5,12 @@ from bot.drivefunc.gdriveUpload import gupload
 from bot.helper.utils import Human_size
 import asyncio
 from bot import LOGGER
-from bot.customFilters.authchecker import is_auth_user
 from pyrogram import Client, Filters
-from bot.customFilters.authchecker import is_auth
 
 
-@Client.on_message(Filters.media & is_auth())
+@Client.on_message(Filters.media)
 async def Document_Downloader(client, messsage):
     ID = str(messsage.from_user.id)
-    if not is_auth_user(ID):
-        await messsage.reply_text("You Are Not Authorized Please Use /login")
-        return
     sentm = await messsage.reply_text("Processing Your File....")
     s_time = time.time()
     try:

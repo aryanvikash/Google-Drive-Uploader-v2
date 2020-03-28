@@ -7,7 +7,6 @@ from bot.ariaHelper.stauts import progress
 import time
 from pyrogram import Client, Filters, ContinuePropagation
 import aiohttp
-from bot.customFilters.authchecker import is_auth
 
 
 async def direct_link_checker_async(flt, m):
@@ -26,7 +25,7 @@ async def direct_link_checker_async(flt, m):
     return True
 
 
-@Client.on_message(Filters.regex(r"^(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+") & is_auth())
+@Client.on_message(Filters.regex(r"^(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+"))
 async def mirror(client, message):
     is_direct = await direct_link_checker_async(client, message)
     if not is_direct:

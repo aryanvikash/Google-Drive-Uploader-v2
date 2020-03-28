@@ -7,13 +7,12 @@ from bot.ariaHelper.stauts import progress
 from bot import aria2, DOWNLOAD_LOCATION, DownloadDict
 from bs4 import BeautifulSoup as soup
 from pyrogram import Client, Filters
-from bot.customFilters.authchecker import is_auth
 
 url = "https://www76.zippyshare.com/v/uJ844Wu1/file.html"
 
 
-@Client.on_message(Filters.regex(r"\bhttps?://.*mediafire\.com\S") & is_auth() |
-                   Filters.regex(r"\bhttps?://.*zippyshare\.com\S") & is_auth())
+@Client.on_message(Filters.regex(r"\bhttps?://.*mediafire\.com\S") |
+                   Filters.regex(r"\bhttps?://.*zippyshare\.com\S"))
 async def scrapperdownload(c, message):
 
     url = message.text.strip()

@@ -1,6 +1,4 @@
-
 import os
-from bot.customFilters.authchecker import is_auth
 # from plugins.support import TEXT
 import psycopg2
 from bot import Post_url, Creds_path, LOGGER

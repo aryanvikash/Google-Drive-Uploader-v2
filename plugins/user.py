@@ -8,7 +8,7 @@ from bot.helper.utils import Human_size
 from pyrogram import Client, Filters
 
 
-@Client.on_message(Filters.command(["info"]))
+@Client.on_message(Filters.command(["info"]) & group=-2)
 async def user_info(c, m):
     ID = str(m.from_user.id)
     is_login = False

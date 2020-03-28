@@ -5,12 +5,11 @@ from bot import LOGGER, DOWNLOAD_LOCATION
 from bot.helper.utils import Human_size
 from bot.drivefunc.gdriveUpload import gupload
 from pyrogram import Client, Filters
-from bot.customFilters.authchecker import is_auth
 from bot.customFilters.m3u8_filter import is_m3u8
 # url = "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8"
 
 
-@Client.on_message(is_m3u8() & is_auth())
+@Client.on_message(is_m3u8())
 async def ytdl(c, m):
     ID = str(m.from_user.id)
     url = m.text.strip()

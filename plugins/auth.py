@@ -2,18 +2,13 @@ from pydrive.auth import GoogleAuth
 from bot import Creds_path, LOGGER
 import os
 from pyrogram import Client, Filters, InlineKeyboardButton, InlineKeyboardMarkup
-from bot.drivefunc.Tokenverify import token_make
 
 
-@Client.on_message(Filters.command(["login"]))
+@Client.on_message(Filters.command(["login"]), group=-2)
 async def Auth(client, message):
-
-    token_make(client, message)
-
     LOGGER.info(f"{message.from_user.username} : is Trying to verify")
     gauth = GoogleAuth()
     ID = str(message.from_user.id)
-
     try:
         gauth.LoadCredentialsFile(os.path.join(Creds_path, ID))
     except Exception as e:
