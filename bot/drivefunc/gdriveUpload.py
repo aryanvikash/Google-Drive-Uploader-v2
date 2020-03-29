@@ -177,6 +177,7 @@ class mydrive:
         f = self.service.files().copy(supportsAllDrives=True,fileId=file_id, body=copied_file).execute()
         return  f['title'],f['fileSize'], f['webContentLink'],
 
+
     #TODO Fix folder upload
     def copyFolder(self,name,local_path,folder_id,parent_id):
         page_token = None
@@ -221,7 +222,14 @@ class mydrive:
         return info
 
     
+    # def copyFolder(self,id):
+    #     if self.getInfo().get("mimeType") == FOLDER_MIME_TYPE:
+
+
+
+
         
+
 
     #TODO fix it 
     def create_directory(self, directory_name, parent_id):

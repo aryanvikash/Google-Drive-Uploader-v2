@@ -27,12 +27,14 @@ async def show_status(client, message):
             await message.reply_text("no active Download")
         else:
             if len(status_List) > 4096:
-                with open("status.html", "w") as f:
+                with open("status.txt", "w") as f:
                     f.write(status_List)
 
-                await message.reply_document(document="status.html")
+                print("length Exceeded")
+                await message.reply_document(document="status.txt")
             else:
                 await message.reply_text(status_List)
+                print("Status Sent")
 
     except Exception as e:
         await message.reply_text(e)

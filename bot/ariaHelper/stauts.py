@@ -35,8 +35,8 @@ async def progress(aria2, gid, event, ID, previous_message=None):
                     try:
                         await event.edit(msg)
                         previous_message = msg
-                    except Exception as e:
-                        LOGGER.error(e)
+                    except Exception :
+                        pass
             else:
                 msg = file.error_message
                 await event.edit(f"`{msg}`")

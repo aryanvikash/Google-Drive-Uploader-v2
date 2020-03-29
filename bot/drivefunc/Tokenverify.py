@@ -3,7 +3,7 @@ import os
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
 import psycopg2
-
+from pyrogram import Client ,Filters
 from bot import Post_url, Creds_path, LOGGER
 from pyrogram import Filters
 
@@ -35,7 +35,17 @@ def filter_token():
             return False
     return Filters.create(is_token, "TokenFilterCreate")
 
-
+def is_token( m):
+        token = m.text
+        token = token.split()[-1]
+        TLEN = len(token)
+        if TLEN == 57:
+            if token[1] == "/":
+                return True
+            else:
+                return False
+        else:
+            return False
 # @Client.on_message(filter_token())
 async def token_verify(client, message):
 
@@ -73,6 +83,7 @@ async def token_verify(client, message):
 
 
 def token_make(client, message):
+
     chat_id = str(message.from_user.id)
 
     ID = str(message.from_user.id)
@@ -92,3 +103,5 @@ def token_make(client, message):
             return True
         else:
             return False
+    else:
+        return True

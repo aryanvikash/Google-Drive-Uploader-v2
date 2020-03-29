@@ -41,7 +41,8 @@ async def user_info(c, m):
         msg += f"Username: `{m.from_user.username}`\n"
         # msg += f'Name : `{user["name"]}`\n'
         msg += f'Email : `{user["user"]["emailAddress"]}`\n'
-        msg += f'Total :`{user["quotaType"]}`\n'
+        msg += f'Quota Type :`{user["quotaType"]}`\n'
+        msg += f'Total :`{Human_size(user["quotaBytesTotal"])}`\n'
         msg += f'Used :`{Human_size(user["quotaBytesUsed"])}`\n'
         msg += f'Trash : `{Human_size(user["quotaBytesUsedInTrash"])}`\n'
         msg += f'Login :`{is_login}`\n'
