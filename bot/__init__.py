@@ -52,6 +52,8 @@ else:
     Post_url = "postgres://zmofplkubkstpl:7a1bf3851f4cb8aba50e2f9c43845103201989dc4179efea4a3bd32991cdae07@ec2-54-246-89-234.eu-west-1.compute.amazonaws.com:5432/d1uq6j6180i42e"
 
 DownloadDict = {}
+TgFileDownloadlist= []
+MegaDownloadList = []
 Creds_path = config.Creds_path
 DOWNLOAD_LOCATION = config.DOWNLOAD_LOCATION
 

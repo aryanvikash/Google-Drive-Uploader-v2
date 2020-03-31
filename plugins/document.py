@@ -4,19 +4,25 @@ import os
 from bot.drivefunc.gdriveUpload import gupload
 from bot.helper.utils import Human_size
 import asyncio
-from bot import LOGGER
+from bot import LOGGER , TgFileDownloadlist
 from pyrogram import Client, Filters
 
 
 @Client.on_message(Filters.media)
 async def Document_Downloader(client, messsage):
     ID = str(messsage.from_user.id)
+    if ID in TgFileDownloadlist:
+        await messsage.reply_text("`Multiple Telegram File Download is Not allowed at a same time !!\nPlease Wait For Complete Your Download `")
+        return
     sentm = await messsage.reply_text("Processing Your File....")
     s_time = time.time()
     try:
+        TgFileDownloadlist.append(ID)
         filename = await messsage.download(progress=get_progress, progress_args=("Download Started ...", sentm, s_time))
+        TgFileDownloadlist.remove(ID)
 
     except Exception as e:
+        TgFileDownloadlist.remove(ID)
         LOGGER.error(e)
 
     if filename is not None:
