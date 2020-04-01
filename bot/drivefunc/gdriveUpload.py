@@ -156,7 +156,8 @@ class mydrive:
 
 
     def getId(self,link):
-            link = link.rstrip('export=download').rstrip('&')
+            # link = link.rstrip('export=download').rstrip('&')
+            link = link.translate({ord('&'): None}).replace("export=download"," ").strip()
 
             if link.find("view") != -1:
                 file_id = link.split('/')[-2]
@@ -242,6 +243,7 @@ class mydrive:
                                                   spaces='drive',
                                                   fields='nextPageToken, items(id, title, mimeType)',
                                                   pageToken=page_token).execute()
+            
             for item in response.get('items', []):
                 rawitems.append(item)
 
@@ -249,60 +251,108 @@ class mydrive:
             if page_token is None:
                 break 
 
-        print(rawitems) 
+        
         if len(rawitems) == 0:
             return parent_id
         else:
             for item in rawitems :
-                print(item)
+                
                 if item.get("mimeType") == FOLDER_MIME_TYPE:
                     folders.append(item)
-            else:
-                files.append(item)
+                    
+                else:
+                    files.append(item)
+
+            
             return files ,folders
     
 
 
-
+#TODO temp  workaround to clone folder
     def cloneFolder(self,folder_id):
+        folder = ""
+        files =""
         files , folders = self.getFolderitem(folder_id)
 
-        #Get Folder Name
+        #Get Folder Name Of recived id
         folderinfo = self.getInfo(folder_id)
         cloneParentFolderId = folderinfo.get("id")
-        folder_url = f"https://drive.google.com/drive/u/0/folders/{cloneParentFolderId}"
+        
         folder_title = folderinfo.get("title")
 
-        #Create folder 
+        #Create Bot Default Folder
         botcloneFolderId = self.createfolder_with_name(BotCloneFolderName)
+        
+        # Create Parentfoldr Inside Bot default Folder
+        cloneParentFolderId  = self.create_dir(folder_title,botcloneFolderId)
+        folder_url = f"https://drive.google.com/drive/u/0/folders/{cloneParentFolderId}"
 
-        cloneParentFolderId  = self.createfolder_with_name(folder_title,botcloneFolderId)
-
-        #copy file in parent id 
-        for file in files:
-            file_id = file.get("id")
-            file_title = file.get("title")
-            self.copy_file(file_id,file_title,cloneParentFolderId)
-            
-            #clone Folder Inside Folder
+        #copy file in parent id
+        print("length of file : ",len(files)) 
+        # if len(files) > 0:
+        #     for file in files:
+        #         file_id = file.get("id")
+        #         file_title = file.get("title")
+        #         self.copy_file(file_id,file_title,cloneParentFolderId)
+        #         print("copy File",file_title)
+                
+             #clone Folder Inside Folder
+        self.ResCopyFile(files,cloneParentFolderId)
+        print("foldeer length ",len(folders))
+        
         if len(folders) > 0:
-            for folder in folders:
-                cloneParentFolderId =  self.createfolder_with_name(folder.get("title") , cloneParentFolderId)
+            for folder  in folders :
+                # self.ResCopyFolder(folder)
+                cloneParentFolderId =  self.create_dir(folder.get("title") , cloneParentFolderId)
                 files , folders = self.getFolderitem(folder.get("id"))
                 for file in files:
                     file_id = file.get("id")
                     file_title = file.get("title")
                     self.copy_file(file_id,file_title,cloneParentFolderId)
+                    print(" Folder Cloned :",file_title , "\n\n\n")
 
+                # if len(folders) > 0:
+                #     for folder  in folders :
+                #         # self.ResCopyFolder(folder)
+                #         cloneParentFolderId =  self.create_dir(folder.get("title") , cloneParentFolderId)
+                #         files , folders = self.getFolderitem(folder.get("id"))
+                #         for file in files:
+                #             file_id = file.get("id")
+                #             file_title = file.get("title")
+                #             self.copy_file(file_id,file_title,cloneParentFolderId)
+                #             print(" Folder Cloned :",file_title , "\n\n\n")
+
+        print("clone Complete")
         return folder_title ,folder_url
 
         
         
 
-
-
-
+    def ResCopyFolder(self,folder):
         
+                userParentFolderId =  folder.get("id")
+                cloneParentFolderId =  self.create_dir(folder.get("title") , userParentFolderId)
+                files , folders = self.getFolderitem(folder.get("id"))
+                self.ResCopyFile(files,cloneParentFolderId)
+                if len(folders) > 0:
+                    for f in folders:
+                        self.ResCopyFile(files,f.get("id"))
+                # for file in files:
+                #     file_id = file.get("id")
+                #     file_title = file.get("title")
+                #     self.copy_file(file_id,file_title,cloneParentFolderId)
+                #     print(" Folder Cloned :",file_title , "\n\n\n")
+
+
+    def ResCopyFile(self,files,ParentFolderId):
+        if len(files) > 0:
+            for file in files:
+                print("coping file...",file.get("title"))
+                file_id = file.get("id")
+                file_title = file.get("title")
+                self.copy_file(file_id,file_title,ParentFolderId)
+                print("copy File",file_title)
+
 
     # def getitemids(self,items):
 
@@ -361,6 +411,25 @@ class mydrive:
                     # folderid = folder['id']
                     print('title: %s, id: %s' % (foldertitle, folderid))
                     return folderid
+
+    def create_dir(self,parent_folder_name: str =None ,dest_id = None):
+            folder_metadata = {'title': parent_folder_name,
+                            'mimeType': 'application/vnd.google-apps.folder'}
+
+            # file = self.service.files().create(supportsTeamDrives=True, body=file_metadata).execute()
+            #     file_id = file.get("id")
+            
+            if dest_id is not None:
+                folder_metadata["parents"] = [{"id":dest_id}]
+            folder = self.drive.CreateFile(folder_metadata)
+            folder.Upload()
+            folderid = folder['id']
+            # Get folder info and print to screen
+            foldertitle = folder['title']
+            # folderid = folder['id']
+            print('title: %s, id: %s' % (foldertitle, folderid))
+            return folderid
+
 
     def clone(self,url):
         try:
