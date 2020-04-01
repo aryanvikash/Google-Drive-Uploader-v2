@@ -9,16 +9,17 @@ from pyrogram import Client, Filters
 async def clone_to_gdrive(c, m):
     url = m.text.strip()
     ID = str(m.from_user.id)
-    if "/folders/" in url:
-        await m.reply_text("` Currently Folder Clone Is not avalible ... !!`")
-        return
-    sentm = await m.reply_text("`Trying To clone Your Google  Drive File ... !!`")
+    
+    sentm = await m.reply_text("`Trying To clone Your Google  Drive File or Folder ... !!`")
 
     loop = asyncio.get_event_loop()
     name, size, drivelink, error = await loop.run_in_executor(None, driveclone, url, ID)
 
     if drivelink is not None:
-        await sentm.edit(f"Filename: `{name}`\n Size : `{Human_size(size)}`\nLink : {drivelink}")
+        if size:
+            await sentm.edit(f"Filename: `{name}`\nSize : `{Human_size(size)}`\nLink : {drivelink}")
+        else:
+            await sentm.edit(f"Folder: `{name}`\n\n{drivelink}")
     else:
         await sentm.edit("`Make Sure You Have Enough Permission For This file ....\n #error`")
 

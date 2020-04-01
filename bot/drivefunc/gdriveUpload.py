@@ -16,6 +16,7 @@ IS_TEAM_DRIVE = False
 # Creds_path= "/mnt/c/Users/Aryan Vikash/Desktop/Pyrogdrive/creds"
 # ID = "920262337"
 FOLDER_MIME_TYPE = 'application/vnd.google-apps.folder'
+BotCloneFolderName = "GdriveUpmeClone"
 
 
 drive: GoogleDrive
@@ -116,6 +117,7 @@ class mydrive:
 
     def __init__(self,ID):
         self.FOLDER_MIME_TYPE = "application/vnd.google-apps.folder"
+        self.BotCloneFolderName = "GdriveUpmeClone"
         self.drive: GoogleDrive
         self.http = None
         self.gauth: drive.GoogleAuth = GoogleAuth()
@@ -166,6 +168,8 @@ class mydrive:
                 file_id = link.split("/")[-1].strip()
             elif link.find("id=") != -1:
                 file_id = link.split("=")[-1].strip()
+            elif link.find("/folders/") != -1:
+                file_id = link.split("folders/")[-1].strip()
             else:
                 file_id = 'not found'
 
@@ -175,82 +179,152 @@ class mydrive:
     def copy_file(self,file_id,my_file_title ,dest_folder_id):
         copied_file = {'title': my_file_title,"parents":[{"id":dest_folder_id}]}
         f = self.service.files().copy(supportsAllDrives=True,fileId=file_id, body=copied_file).execute()
-        return  f['title'],f['fileSize'], f['webContentLink'],
+        try:
+            return  f['title'],f['fileSize'], f['webContentLink']
+        except Exception as e:
+            print(e)
+            return  
 
 
     #TODO Fix folder upload
-    def copyFolder(self,name,local_path,folder_id,parent_id):
-        page_token = None
-        q =f"'{folder_id}' in parents"
-        files = []
-        LOGGER.info(f"Syncing: {local_path}")
-        new_id = None
-        while True:
-            response = self.service.files().list(q=q,
-                                                  spaces='drive',
-                                                  fields='nextPageToken, files(id, name, mimeType,size)',
-                                                  pageToken=page_token).execute()
-            for file in response.get('files', []):
-                files.append(file)
-            page_token = response.get('nextPageToken', None)
-            if page_token is None:
-                break  
-        if len(files) == 0:
-            return parent_id
-        for file in files:
-            if file.get('mimeType') == selff.__G_DRIVE_DIR_MIME_TYPE:
-                file_path = os.path.join(local_path,file.get('name'))
-                current_dir_id = self.create_directory(file.get('name'),parent_id)
-                new_id = self.cloneFolder(file.get('name'),file_path,file.get('id'),current_dir_id) 
-            else:
-                self.transferred_size += int(file.get('size'))
-                try:
-                    self.copyFile(file.get('id'),parent_id)
-                    new_id = parent_id
-                except Exception as e:
-                    if isinstance(e,RetryError):
-                        LOGGER.info(f"Total Attempts: {e.last_attempt.attempt_number}")
-                        err = e.last_attempt.exception()
-                    else:
-                        err = e
-                    LOGGER.error(err)
-        return new_id
+    # def copyFolder(self,name,local_path,folder_id,parent_id):
+    #     page_token = None
+    #     q =f"'{folder_id}' in parents"
+    #     files = []
+    #     LOGGER.info(f"Syncing: {local_path}")
+    #     new_id = None
+    #     while True:
+    #         response = self.service.files().list(q=q,
+    #                                               spaces='drive',
+    #                                               fields='nextPageToken, files(id, name, mimeType,size)',
+    #                                               pageToken=page_token).execute()
+    #         for file in response.get('files', []):
+    #             files.append(file)
+    #         page_token = response.get('nextPageToken', None)
+    #         if page_token is None:
+    #             break  
+    #     if len(files) == 0:
+    #         return parent_id
+    #     for file in files:
+    #         if file.get('mimeType') == selff.__G_DRIVE_DIR_MIME_TYPE:
+    #             file_path = os.path.join(local_path,file.get('name'))
+    #             current_dir_id = self.create_directory(file.get('name'),parent_id)
+    #             new_id = self.cloneFolder(file.get('name'),file_path,file.get('id'),current_dir_id) 
+    #         else:
+    #             self.transferred_size += int(file.get('size'))
+    #             try:
+    #                 self.copyFile(file.get('id'),parent_id)
+    #                 new_id = parent_id
+    #             except Exception as e:
+    #                 if isinstance(e,RetryError):
+    #                     LOGGER.info(f"Total Attempts: {e.last_attempt.attempt_number}")
+    #                     err = e.last_attempt.exception()
+    #                 else:
+    #                     err = e
+    #                 LOGGER.error(err)
+    #     return new_id
 
 
     def getInfo(self,source_id : str):
         info = self.service.files().get(supportsAllDrives=True,fileId=source_id,fields="title,id,mimeType,fileSize").execute()
         return info
 
+    def getFolderitem(self ,folder_id ,parent_id = None):
+        # List Everything In that {folder_id}
+        q =f"'{folder_id}' in parents"
+        page_token = None
+        rawitems=[]
+        files = []
+        folders = []
+        while True:
+            response = self.service.files().list(q=q,supportsAllDrives=True,
+                                                includeItemsFromAllDrives=True,
+                                                  spaces='drive',
+                                                  fields='nextPageToken, items(id, title, mimeType)',
+                                                  pageToken=page_token).execute()
+            for item in response.get('items', []):
+                rawitems.append(item)
+
+            page_token = response.get('nextPageToken', None)
+            if page_token is None:
+                break 
+
+        print(rawitems) 
+        if len(rawitems) == 0:
+            return parent_id
+        else:
+            for item in rawitems :
+                print(item)
+                if item.get("mimeType") == FOLDER_MIME_TYPE:
+                    folders.append(item)
+            else:
+                files.append(item)
+            return files ,folders
     
-    # def copyFolder(self,id):
-    #     if self.getInfo().get("mimeType") == FOLDER_MIME_TYPE:
+
+
+
+    def cloneFolder(self,folder_id):
+        files , folders = self.getFolderitem(folder_id)
+
+        #Get Folder Name
+        folderinfo = self.getInfo(folder_id)
+        cloneParentFolderId = folderinfo.get("id")
+        folder_url = f"https://drive.google.com/drive/u/0/folders/{cloneParentFolderId}"
+        folder_title = folderinfo.get("title")
+
+        #Create folder 
+        botcloneFolderId = self.createfolder_with_name(BotCloneFolderName)
+
+        cloneParentFolderId  = self.createfolder_with_name(folder_title,botcloneFolderId)
+
+        #copy file in parent id 
+        for file in files:
+            file_id = file.get("id")
+            file_title = file.get("title")
+            self.copy_file(file_id,file_title,cloneParentFolderId)
+            
+            #clone Folder Inside Folder
+        if len(folders) > 0:
+            for folder in folders:
+                cloneParentFolderId =  self.createfolder_with_name(folder.get("title") , cloneParentFolderId)
+                files , folders = self.getFolderitem(folder.get("id"))
+                for file in files:
+                    file_id = file.get("id")
+                    file_title = file.get("title")
+                    self.copy_file(file_id,file_title,cloneParentFolderId)
+
+        return folder_title ,folder_url
+
+        
+        
 
 
 
 
         
 
+    # def getitemids(self,items):
 
     #TODO fix it 
-    def create_directory(self, directory_name, parent_id):
-        file_metadata = {
-            "name": directory_name,
-            "mimeType": self.FOLDER_MIME_TYPE
-        }
-        if parent_id is not None:
-            file_metadata["parents"] = [parent_id]
-        file = self.service.files().create(supportsTeamDrives=True, body=file_metadata).execute()
-        file_id = file.get("id")
-        if not IS_TEAM_DRIVE:
-            self.__set_permission(file_id)
-        LOGGER.info("Created Google-Drive Folder:\nName: {}\nID: {} ".format(file.get("name"), file_id))
-        return file_id
-    # def copyFolder(self,folderId):
+    # def create_directory(self, directory_name, parent_id):
+    #     file_metadata = {
+    #         "name": directory_name,
+    #         "mimeType": self.FOLDER_MIME_TYPE
+    #     }
+    #     if parent_id is not None:
+    #         file_metadata["parents"] = [parent_id]
+    #     file = self.service.files().create(supportsTeamDrives=True, body=file_metadata).execute()
+    #     file_id = file.get("id")
+    #     if not IS_TEAM_DRIVE:
+    #         self.__set_permission(file_id)
+    #     LOGGER.info("Created Google-Drive Folder:\nName: {}\nID: {} ".format(file.get("name"), file_id))
+    #     return file_id
 
 
 
 
-    def check_folder_name(self,parent_folder_name: str =None):
+    def createfolder_with_name(self,parent_folder_name: str =None ,dest_id = None):
         """
         (search by title)
         This function for searching Folder Name and creating new folder if it don't exist
@@ -273,6 +347,12 @@ class mydrive:
                     LOGGER.info("Folder Not Found !! Creating Folder")
                     folder_metadata = {'title': parent_folder_name,
                                     'mimeType': 'application/vnd.google-apps.folder'}
+
+                    # file = self.service.files().create(supportsTeamDrives=True, body=file_metadata).execute()
+                    #     file_id = file.get("id")
+                    
+                    if dest_id is not None:
+                        folder_metadata["parents"] = [{"id":dest_id}]
                     folder = self.drive.CreateFile(folder_metadata)
                     folder.Upload()
                     folderid = folder['id']
@@ -285,10 +365,17 @@ class mydrive:
     def clone(self,url):
         try:
             public_id =self.getId(url)
-            public_file_title = self.getInfo(public_id).get("title")
-            destId = self.check_folder_name("gdriveupmebotclone")
-            title ,size ,link =  self.copy_file(public_id,public_file_title,destId)
-            return title,size,link,None
+            LOGGER.info(f"Drive Clone Item ID  : {public_id}")
+            if self.getInfo(public_id).get("mimeType") == FOLDER_MIME_TYPE:
+                LOGGER.info("Folder Cloning started")
+                title,link = self.cloneFolder(public_id)
+                return title,None,link,None
+            else:
+                LOGGER.info("File Cloning started")
+                public_file_title = self.getInfo(public_id).get("title")
+                destId = self.createfolder_with_name("gdriveupmebotclone")
+                title ,size ,link =  self.copy_file(public_id,public_file_title,destId)
+                return title,size,link,None
         except Exception as e:
             LOGGER.error(f"Clone  error : {e}")
             return None,None,None,e
