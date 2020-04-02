@@ -39,8 +39,9 @@ async def ytdl(c, m):
 
 
 async def m3u8_path(out):
-    output = out.decode('utf-8').strip()
-    print(output, "\n")
-    output = output.split("into")[1]
-    path = output.split("\n")[0].replace('"', " ").strip()
+    print(out)
+    filename = out.decode().strip()
+    if filename.find("Merging formats into") != -1:
+        filename = filename.split("Merging formats into")
+        filename = filename[1].split('"')[1]
     return path
