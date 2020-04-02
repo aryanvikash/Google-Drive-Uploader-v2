@@ -45,7 +45,7 @@ async def mega_download(c, message):
         # MegaDownloadList.remove(ID)
         LOGGER.error(e)
 
-        await sentm.edit(f"Wew You Got An Error 😮!! \n\n`{e}`\n\nMake Sure It was a file Link \n\n#error")
+        await sentm.edit(f"Wew You Got An Error 😮!! \n\n\nMake Sure It was a file Link \n\n#error")
         return
 
 
