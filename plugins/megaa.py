@@ -3,13 +3,12 @@ import os
 import asyncio
 from bot.helper.utils import Human_size
 from bot import DOWNLOAD_LOCATION, LOGGER, Creds_path,MegaDownloadList
-from bot.drivefunc.gdriveUpload import gupload
+from bot.drivefunc.gdriveUpload import gupload,mydrive
 from pyrogram import Client, Filters
 
 
 @Client.on_message(Filters.regex(r"^https://mega."))
 async def mega_download(c, message):
-    os.system("megals")
     ID = str(message.from_user.id)
     url = message.text.strip()
     # await message.reply_text("No Support For Mega links😒 ")
@@ -21,41 +20,46 @@ async def mega_download(c, message):
     sentm = await message.reply_text("Downloading... Mega Link Was Always Slow..😒 ")
     loop = asyncio.get_event_loop()
     
-    try:
-        # mega Download
-        # MegaDownloadList.append(ID)
-        name,megaerror = await megatool(url)
-        
-        if megaerror:
-                print("something goging wrong")
-                # name = await loop.run_in_executor(None, async_megadl, url)
-                
+
+    name,megaerror,isFolder= await megatool(url)
+    
+    if megaerror:
+            print("something goging wrong")
+            await sentm.edit(f"Wew You Got An Error 😮!! \n\n\nMake Sure It was a file Link \n\n#error")
+            return
+    if isFolder:
+        filenames = name
+        print("folder Downloadzz:",name)
+        for filename in filenames:
+            DriveLink = await loop.run_in_executor(None, driveupload, filename, ID)
+            LOGGER.info(f"mega : {name} : Upload complete")
+            size = os.path.getsize(filename)
+            file = os.path.basename(filename)
+            await message.reply_text(f"Filename: `{file}`\n Size : `{Human_size(size)}`\nLink : {DriveLink}")
+            os.remove(filename)
+
+    
+    else:
         filename = os.path.join(DOWNLOAD_LOCATION, name)
-        print(filename)
-        print(type(filename))
-        await sentm.edit("Mega Download Complete ....!! Now Uploading !!")
-        # MegaDownloadList.remove(ID)
-        # Uploading
-        DriveLink = await loop.run_in_executor(None, gupload, filename, ID)
+        print("file downloaded")
+        DriveLink = await loop.run_in_executor(None, driveupload, filename, ID)
         LOGGER.info(f"mega : {name} : Upload complete")
         size = os.path.getsize(filename)
         await sentm.edit(f"Filename: `{name}`\n Size : `{Human_size(size)}`\nLink : {DriveLink}")
         os.remove(filename)
-    except Exception as e:
-        # MegaDownloadList.remove(ID)
-        LOGGER.error(e)
 
-        await sentm.edit(f"Wew You Got An Error 😮!! \n\n\nMake Sure It was a file Link \n\n#error")
-        return
+    return
 
 
 def async_megadl(url):
+    
     mega = Mega()
     mag = mega.login("bearyan8@yandex.com", "bearyan8@yandex.com")
     try:
         name = mag.download_url(url)
     except Exception as e:
         LOGGER.error(e)
+        
     LOGGER.info(f"Mega  {name} Download Completed Now uploading...")
 
     return name
@@ -63,9 +67,18 @@ def async_megadl(url):
     # await loop.run_in_executor(None, gupload,filename,ID)
 
 
+def driveupload(path,ID):
+        mdrive = mydrive(ID)
+        drivelink = mdrive.uploadfile(path)
+        return drivelink
 
 
-async def megatool(link):
+
+async def megatool(url):
+    if "folder/" in url :
+        link = url.replace("#", "!").replace("folder/","#F!")
+    else:
+        link  = url
     command  = ['megadl',"--no-progress","--print-names",link]
 
     process = await asyncio.create_subprocess_exec(
@@ -78,6 +91,13 @@ async def megatool(link):
     error = stderr.decode().strip()
     filename = stdout.decode().strip()
     print(" Mega error :",error)
-    print("files :" ,filename)
-    print(type(filename))
-    return filename ,error
+    filenames  = filename.split("\n")
+    if "/#F!" in link :
+            return filenames ,error ,True
+    
+    else:
+        return filename,error ,False
+
+
+
+    

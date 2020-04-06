@@ -14,6 +14,7 @@ logging.getLogger("pyrogram").setLevel(logging.WARNING)
 LOGGER = logging.getLogger(__name__)
 # os.system("bash aria.sh")
 adminList = config.adminList
+currentdir = os.path.abspath(os.getcwd())
 try:
     aria2 = aria2p.API(
         aria2p.Client(
@@ -56,8 +57,13 @@ TgFileDownloadlist= []
 MegaDownloadList = []
 Creds_path = config.Creds_path
 DOWNLOAD_LOCATION = config.DOWNLOAD_LOCATION
+DOWNLOAD_LOCATION = currentdir
 
 EDIT_TIME = 5
+
+
+Creds_path = os.path.join(currentdir,Creds_path)
+
 
 if not os.path.isdir(Creds_path):
     os.makedirs(Creds_path)

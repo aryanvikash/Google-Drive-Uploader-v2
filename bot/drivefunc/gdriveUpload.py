@@ -8,6 +8,7 @@ import os
 import os.path as path
 import re
 
+from bot.helper.utils import listdir
 
 from bot import Creds_path ,LOGGER
 from pydrive.auth import GoogleAuth
@@ -100,15 +101,6 @@ def gupload(filename: str ,ID = None, parent_folder: str="Gdriveupmebot") -> Non
 
 
 
-# def copy_file(service, source_id, dest_title):
-#     copied_file = {'title': dest_title}
-#     f = service.files().copy(fileId=source_id, body=copied_file).execute()
-#     return f['id']
-
-
-
-
-
 
 
 
@@ -121,10 +113,18 @@ class mydrive:
         self.drive: GoogleDrive
         self.http = None
         self.gauth: drive.GoogleAuth = GoogleAuth()
+        print(ID)
         self.gauth.LoadCredentialsFile(path.join(Creds_path, ID))
+        print(ID)
         if self.gauth.credentials is None:
             # AUTHURL = gauth.GetAuthUrl()
-            print("not Auth Users")
+            print("Not Auth Users")
+
+        # if not os.path.isfile(os.path.join(Creds_path,ID) ):
+        #     print("path : ", Creds_path)
+        #     print("Creds: ", os.path.join(Creds_path,ID))
+        #     print("not auth")
+
 
         elif self.gauth.access_token_expired:
             # Refresh them if expired
@@ -153,6 +153,40 @@ class mydrive:
         }
         return self.service.permissions().create(supportsTeamDrives=True, fileId=drive_id, body=permissions).execute()
         
+    def uploadfile(self , filename: str , parent_folder :str = None) :
+
+            if not path.exists(filename):
+                print(f"Specified filename {filename} does not exist!")
+                return
+            # print(filename)
+
+
+            file_params = {'title': filename.split('/')[-1]}
+
+            if parent_folder:
+                folderid = self.createfolder_with_name("megadownload")
+                file_params['parents'] = [{"kind": "drive#fileLink", "id": folderid}]
+            try:
+                LOGGER.info(f"Uploading Satarted : {filename}")
+                file_to_upload = self.drive.CreateFile(file_params)
+                file_to_upload.SetContentFile(filename)
+                file_to_upload.Upload(param={"http": self.http})
+                file_to_upload.FetchMetadata()
+                file_to_upload.InsertPermission({
+                    'type': 'anyone',
+                    'value': 'anyone',
+                    'role': 'reader',
+                    'withLink': True
+                })
+            
+                LOGGER.info(f"Uploading Complete : {filename}")
+                return file_to_upload['webContentLink']
+            except Exception as e:
+                # LOGGER.error(e)
+                print(e)
+
+                # return e
+
 
 
     def getId(self,link):
@@ -176,7 +210,7 @@ class mydrive:
 
             return file_id
 
-
+    
     def copy_file(self,file_id,my_file_title ,dest_folder_id):
         copied_file = {'title': my_file_title,"parents":[{"id":dest_folder_id}]}
         f = self.service.files().copy(supportsAllDrives=True,fileId=file_id, body=copied_file).execute()
@@ -430,7 +464,32 @@ class mydrive:
             print('title: %s, id: %s' % (foldertitle, folderid))
             return folderid
 
+    # def FolderUpload(self,dir) :
+    #     if os.path.isdir(dir):
+    #         foldername = os.path.basename(dir)
+    #         folderId = self.createfolder_with_name(foldername)
+    #         files,folders = listdir(dir)
+    #         if len(files)>0:
+    #             for file in files :
+    #                 uplod()
 
+        
+    #  def upload_dir(self, input_directory, parent_id):
+    #     list_dirs = os.listdir(input_directory)
+    #     folderId = self.createfolder_with_name(foldername)
+    #     if len(list_dirs) == 0:
+    #         return parent_id
+    #     new_id = None
+    #     for item in list_dirs:
+    #         current_file_name = os.path.join(input_directory, item)
+    #         if os.path.isdir(current_file_name):
+    #             current_dir_id = self.create_directory(item, parent_id)
+    #             new_id = self.upload_dir(current_file_name, current_dir_id)
+    #         else:
+    #             self.uploadfile(filename,)
+    #             new_id = parent_id
+    #     return new_id
+    
     def clone(self,url):
         try:
             public_id =self.getId(url)

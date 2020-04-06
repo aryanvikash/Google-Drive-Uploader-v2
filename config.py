@@ -10,13 +10,10 @@ APP_ID = "1278490"
 API_HASH = "69d16301a6ce2d3b68b81e5f881bfca7"
 AUTH_GROUP = ""
 
-Creds_path = "/app/creds/"
-DOWNLOAD_LOCATION = "/app"
+Creds_path = "creds"
+DOWNLOAD_LOCATION = "/"
 
 adminList = [920262337]
-# Creds_path = "/home/ubuntu/Pyrogdrive/creds"
-# DOWNLOAD_LOCATION ="/home/ubuntu/Pyrogdrive"
 
-# Creds_path = "/mnt/c/Users/Aryan Vikash/Desktop/Pyrogdrive/creds"
-# DOWNLOAD_LOCATION = "/mnt/c/Users/Aryan Vikash/Desktop/Pyrogdrive"
+
 EDIT_TIME = 5
