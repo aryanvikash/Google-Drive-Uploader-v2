@@ -78,7 +78,7 @@ async def megatool(url):
     if "folder/" in url :
         link = url.replace("#", "!").replace("folder/","#F!")
     else:
-        link  = url
+        link  = url.replace("#","!").replace("file/","#!")
     command  = ['megadl',"--no-progress","--print-names",link]
 
     process = await asyncio.create_subprocess_exec(
