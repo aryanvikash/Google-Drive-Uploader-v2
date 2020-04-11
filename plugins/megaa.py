@@ -77,8 +77,10 @@ def driveupload(path,ID):
 async def megatool(url):
     if "folder/" in url :
         link = url.replace("#", "!").replace("folder/","#F!")
-    else:
+    elif "file/" in url:
         link  = url.replace("#","!").replace("file/","#!")
+    else:
+        link  = url
     command  = ['megadl',"--no-progress","--print-names",link]
 
     process = await asyncio.create_subprocess_exec(
