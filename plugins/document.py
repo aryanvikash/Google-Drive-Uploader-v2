@@ -33,9 +33,13 @@ async def Document_Downloader(client, messsage):
         size = os.path.getsize(filename)
         if DriveLink is not None:
             await sentm.edit(f"Filename: `{os.path.basename(filename)}`\n Size : `{Human_size(size)}`\nLink : {DriveLink}")
-            os.remove(filename)
+            
             LOGGER.info(f"Upload Complete {filename} Now Cleaning Disk")
         else:
             await sentm.edit("Uploading Failed !!")
             LOGGER.error(f"Telegram File {filename}Uploading error Removing File")
+            
+        try:
             os.remove(filename)
+        except Exception as  e:
+            LOGGER.error(f"Telegram File remove {e} Uploading error Removing File")
