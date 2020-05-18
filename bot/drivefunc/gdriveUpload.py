@@ -39,6 +39,7 @@ def gupload(filename: str ,ID = None, parent_folder: str="Gdriveupmebot") -> Non
         # Refresh them if expired
         gauth.Refresh()
         gauth.SaveCredentialsFile(path.join(Creds_path, ID))
+        gauth.Authorize()
     else:
         # Initialize the saved creds
         gauth.Authorize()
