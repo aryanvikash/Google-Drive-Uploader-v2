@@ -5,8 +5,9 @@ from bot import (aria2, DownloadDict, DOWNLOAD_LOCATION,
 from bot.ariaHelper.ariaDownload import add_url
 from bot.ariaHelper.stauts import progress
 import time
-from pyrogram import Client, Filters, ContinuePropagation
+from pyrogram import Client, Filters, ContinuePropagation,StopPropagation
 import aiohttp
+
 
 
 async def direct_link_checker_async(flt, m):
@@ -14,6 +15,7 @@ async def direct_link_checker_async(flt, m):
     if url.endswith("m3u8"):
         return False
     LOGGER.info(f"Direct Link Checker : {url}")
+    
     requests = aiohttp.ClientSession()
     h = await requests.head(url, allow_redirects=True)
     content_type = h.content_type
@@ -22,15 +24,20 @@ async def direct_link_checker_async(flt, m):
         return False
     if 'html' in content_type.lower():
         return False
+    if 'torrent' in content_type.lower():
+        return False
     return True
 
 
 @Client.on_message(Filters.regex(r"^(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+"))
 async def mirror(client, message):
-    is_direct = await direct_link_checker_async(client, message)
-    if not is_direct:
-        print("Not direct link")
-        raise ContinuePropagation
+
+        
+    # is_direct = await direct_link_checker_async(client, message)
+    # if not is_direct:
+    #     print("Not direct link")
+    #     # await message.reply_text(f"<code> `Send Me a direct Link 😒 `")
+    #     raise ContinuePropagation
     current_user_id = message.from_user.id
     uid = current_user_id
 

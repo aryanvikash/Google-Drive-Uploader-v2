@@ -3,7 +3,7 @@
 
 
 DOWNLOAD_LOCATION = "./Downloads"
-# BOT_TOKEN = "676967834:AAFj5Tff1BcZYtNVPfLZAd9KCNegB3TnI1k"
+# BOT_TOKEN = "894269743:AAH3OAtoNulAMPwJg-Cp4zAGBxGazTlzn38"
 BOT_TOKEN = "955851494:AAFkpvw9al87ipPVJU9i28eyfTN86dAclkI" #gdriveupme_bot
 # BOT_TOKEN = "988394638:AAEck5ZsVByoKR4syncTw01q2mwLoyuKHm0"  #  @aryantest_bot
 APP_ID = "1278490"
@@ -13,7 +13,7 @@ AUTH_GROUP = ""
 Creds_path = "creds"
 DOWNLOAD_LOCATION = "/"
 
-adminList = [920262337]
+adminList = [985378987,1212106123]
 
 
 EDIT_TIME = 5

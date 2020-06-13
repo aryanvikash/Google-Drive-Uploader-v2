@@ -50,7 +50,8 @@ if os.environ.get("DATABASE_URL"):
 else:
 
     LOGGER.info(f"Envoriment Database Not Found  Using hardcoding method ")
-    Post_url = "postgres://mrifmlre:anINuwfZgJRFc_7YXfbW6XqJ4RhcEg17@salt.db.elephantsql.com:5432/mrifmlre"
+    Post_url = "postgres://skezdjjc:9YAl2TfIpCKfufEh6MzRVaaocu93bcth@ruby.db.elephantsql.com:5432/skezdjjc" #testdb
+    # Post_url = "postgres://mrifmlre:anINuwfZgJRFc_7YXfbW6XqJ4RhcEg17@salt.db.elephantsql.com:5432/mrifmlre"
 
 DownloadDict = {}
 TgFileDownloadlist= []

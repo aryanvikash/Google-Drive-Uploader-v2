@@ -6,7 +6,7 @@ from threading import Thread
 from bot.drivefunc.gdriveUpload import gupload
 import asyncio
 from bot import DOWNLOAD_LOCATION, Creds_path
-
+from pyrogram import  InlineKeyboardButton, InlineKeyboardMarkup
 
 async def progress(aria2, gid, event, ID, previous_message=None):
     previous_message = None
@@ -59,28 +59,22 @@ async def progress(aria2, gid, event, ID, previous_message=None):
                 IdPath =  os.path.join(Creds_path,str(ID))
 
                 loop = asyncio.get_event_loop()
-                DriveLink = await loop.run_in_executor(None, gupload, filePath, str(ID))
-                await event.edit(f"<b>FileName : </b> <code>{file.name}</code>\n<b>Size : </b> <code>{file.total_length_string()}</code>\n\nLink : {DriveLink}   ")
+                try:
+                    DriveLink = await loop.run_in_executor(None, gupload, filePath, str(ID))
+                except Exception as e:
+                    event.edit("Failed To upload Your File report @aryanvikash")
+                    return
+                
+                DownloadButton=InlineKeyboardMarkup([[InlineKeyboardButton("Download", url=DriveLink)] ])
+                
+                await event.edit(f"<b>FileName : </b> <code>{file.name}</code>\n\n<b>Size : </b> <code>{file.total_length_string()}</code> ",reply_markup=DownloadButton)
                 os.remove(file.name)
                 LOGGER.info(f"Upload Completed And Removing file ")
 
-                # upload = Thread(target=gupload,args=(filePath,event,IdPath))
-                # upload.start()
-                # Uploaderror ,DriveLink = await gupload(os.path.join(DOWNLOAD_LOCATION,file.name ) , os.path.join(Creds_path,str(ID)))
-                # if Uploaderror is not None:
-                # await event.edit(f"<b>FileName : </b> <code>{file.name}</code>\n<b>Size : </b> <code>{file.total_length_string()}</code>\n\nLink : {DriveLink}   ")
-                #     LOGGER.info(f"Upload Completed And Removing file ")
-                #     os.remove(file.name)
-                #     return True
-                # else:
-                #     await event.edit(Uploaderror)
-                #     return False
+             
             except Exception as e:
                 LOGGER.error(e)
-                # Extra Layer Of Error Handling :lol
-                # await event.edit("<u>Upload error</u> :\n`{}` \n\n#error".format(str(e)))
-                # os.remove(file.name)
-                # LOGGER.info(f"Upload error  : {e} \n  Cleaning File ")
+                
                 return False
 
             return True

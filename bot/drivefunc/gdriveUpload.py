@@ -507,6 +507,7 @@ class mydrive:
                 return title,size,link,None
         except Exception as e:
             LOGGER.error(f"Clone  error : {e}")
+            raise e
             return None,None,None,e
 
         
