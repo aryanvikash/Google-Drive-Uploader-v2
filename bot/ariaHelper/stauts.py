@@ -32,8 +32,10 @@ async def progress(aria2, gid, event, ID, previous_message=None):
                 msg += f"\n\n<code>/cancel {gid}</code>"
                 # LOGGER.info(msg)
                 if msg != previous_message:
+                    Cancelbutton=InlineKeyboardMarkup([[InlineKeyboardButton("cancel", callback_data = f"cancel||{gid}")] ])
                     try:
-                        await event.edit(msg)
+                        
+                        await event.edit(msg,reply_markup = Cancelbutton)
                         previous_message = msg
                     except Exception :
                         pass
@@ -82,7 +84,10 @@ async def progress(aria2, gid, event, ID, previous_message=None):
         LOGGER.info(str(e))
         # TODO Improve Onstop Thing
         if " not found" in str(e) or "'file'" in str(e):
-            await event.edit(f"Download Cancelled :\n`{file.name}` \n GID : `{gid}`")
+            try:
+                await event.edit(f"Download Cancelled :\n`{file.name}` \n GID : `{gid}`")
+            except Exception:
+                await event.edit(f"Download Cancelled :\n GID : `{gid}`")
             return False
         elif " depth exceeded" in str(e):
             file.remove(force=True)

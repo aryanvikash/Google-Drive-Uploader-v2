@@ -17,7 +17,7 @@ async def mega_download(c, message):
         await message.reply_text("`currently We Limit Mega Download To single Download At a Time !! Please Wait For Complete It ....`")
         return
 
-    sentm = await message.reply_text("Downloading... Mega Link Was Always Slow..😒 ")
+    sentm = await message.reply_text("Downloading... keep patients You will get an error or file 😘 ")
     loop = asyncio.get_event_loop()
     
 
@@ -25,7 +25,7 @@ async def mega_download(c, message):
     
     if megaerror:
             print("something goging wrong")
-            await sentm.edit(f"Wew You Got An Error 😮!! \n\n\nMake Sure It was a file Link \n\n#error")
+            await sentm.edit(f"`Wow you got an error 😮!!\n possible : Server Ip or file Download limit Over\n\n`#error")
             return
     if isFolder:
         filenames = name

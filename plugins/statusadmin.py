@@ -33,7 +33,10 @@ async def show_status(client, message):
                 print("length Exceeded")
                 await message.reply_document(document="status.txt")
             else:
-                await message.reply_text(status_List)
+                try:
+                    await message.reply_text(status_List)
+                except Exception as e:
+                    await message.reply_text(e)
                 print("Status Sent")
 
     except Exception as e:
