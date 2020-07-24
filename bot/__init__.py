@@ -6,7 +6,7 @@ import config
 from pyrogram import Client , Filters
 
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=logging.WARNING,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s" ,
     handlers=[logging.FileHandler('log.txt'), logging.StreamHandler()]
 )
