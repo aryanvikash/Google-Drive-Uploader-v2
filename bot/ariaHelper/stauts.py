@@ -1,4 +1,4 @@
-import asyncio
+
 import os
 from bot import EDIT_TIME,LOGGER
 from bot.drivefunc.gdriveUpload import gupload
