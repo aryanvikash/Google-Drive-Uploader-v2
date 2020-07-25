@@ -4,7 +4,6 @@ from pydrive.auth import GoogleAuth
 import psycopg2
 from pyrogram import Filters
 from bot import Post_url, Creds_path, LOGGER
-from pyrogram import Filters
 
 
 # conn = psycopg2.connect(DATABASE_URL)
