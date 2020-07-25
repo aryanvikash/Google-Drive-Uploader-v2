@@ -68,7 +68,7 @@ async def cancel(client, message):
             file.remove(force=True)
             time.sleep(1)
             if file is not file.is_removed:
-                await sentm.edit(f"Download Cancelled Successfully 🎉🎉")
+                await sentm.edit("Download Cancelled Successfully 🎉🎉")
                 # DownloadDict[gid].remove()
                 LOGGER.info(f"GID : {gid} cancelled Successfully  Cleaning Storage .. ")
                 os.remove(file.name)

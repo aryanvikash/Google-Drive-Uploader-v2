@@ -25,7 +25,7 @@ async def mega_download(c, message):
     
     if megaerror:
             print("something goging wrong")
-            await sentm.edit(f"`Wow you got an error 😮!!\n possible : Server Ip or file Download limit Over\n\n`#error")
+            await sentm.edit("`Wow you got an error 😮!!\n possible : Server Ip or file Download limit Over\n\n`#error")
             return
     if isFolder:
         filenames = name

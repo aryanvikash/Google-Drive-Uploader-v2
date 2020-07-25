@@ -44,12 +44,12 @@ def is_admin(uid):
 
 # Post_url = os.environ.get("DATABASE_URL")
 if os.environ.get("DATABASE_URL"):
-    LOGGER.info(f"Env Database Avalible ")
+    LOGGER.info("Env Database Avalible ")
     Post_url = os.environ.get("DATABASE_URL")
     
 else:
 
-    LOGGER.info(f"Envoriment Database Not Found  Using hardcoding method ")
+    LOGGER.info("Envoriment Database Not Found  Using hardcoding method ")
     Post_url = "postgres://skezdjjc:9YAl2TfIpCKfufEh6MzRVaaocu93bcth@ruby.db.elephantsql.com:5432/skezdjjc" #testdb
     # Post_url = "postgres://mrifmlre:anINuwfZgJRFc_7YXfbW6XqJ4RhcEg17@salt.db.elephantsql.com:5432/mrifmlre"
 

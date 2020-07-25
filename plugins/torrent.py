@@ -26,7 +26,7 @@ async def torrent_(client, message):
     )
     # if os.path.isfile(os.path.join(Creds_path, ID)):
 
-    sentm = await message.reply_text(f"<code> Processing Your Uri ...</code>")
+    sentm = await message.reply_text("<code> Processing Your Uri ...</code>")
 
     msg = message.text.strip()
     msg = msg.split(" ")[-1]
