@@ -69,7 +69,7 @@ async def progress(aria2, gid, event, ID, previous_message=None):
                 
                 await event.edit(f"<b>FileName : </b> <code>{file.name}</code>\n\n<b>Size : </b> <code>{file.total_length_string()}</code> ",reply_markup=DownloadButton)
                 os.remove(file.name)
-                LOGGER.info(f"Upload Completed And Removing file ")
+                LOGGER.info("Upload Completed And Removing file ")
 
              
             except Exception as e:

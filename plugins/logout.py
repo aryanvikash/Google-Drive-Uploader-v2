@@ -36,7 +36,7 @@ async def revoke(client, message):
             #     text="Deleted Your Auth token from database.",
             #     reply_to_message_id=update.message_id
             # )
-            await message.reply_text(f"Logout Successfully 😊")
+            await message.reply_text("Logout Successfully 😊")
             LOGGER.info(f"{chat_id} : Removed From Database")
             conn.commit()
         else:
