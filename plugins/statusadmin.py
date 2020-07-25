@@ -1,4 +1,3 @@
-import aria2p
 from bot import aria2
 from pyrogram import Client, Filters
 from bot.customFilters.admin_filter import is_admin

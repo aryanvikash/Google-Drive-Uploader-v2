@@ -1,6 +1,5 @@
 # https://github.com/SpEcHiDe/AnyDLBot/blob/13a16b8cb0922c277c309e05578310827288f599/helper_funcs/display_progress.py#L25
 import math
-import os
 import time
 
 

@@ -1,6 +1,5 @@
 # https://github.com/AvinashReddy3108/PaperplaneExtended/blob/master/userbot/modules/direct_links.py
 
-import re
 import aiohttp
 from bot.ariaHelper.ariaDownload import add_url
 from bot.ariaHelper.stauts import progress
@@ -8,7 +7,6 @@ from bot import aria2, DOWNLOAD_LOCATION, DownloadDict
 from bs4 import BeautifulSoup as soup
 from pyrogram import Client, Filters
 import asyncio
-import requests
 
 from bot.helper.zippyshare import generate_zippylink
 

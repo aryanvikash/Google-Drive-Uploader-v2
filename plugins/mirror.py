@@ -1,11 +1,11 @@
-from bot.helper.utils import (is_magnet, is_url)
+from bot.helper.utils import (is_url)
 import os
 from bot import (aria2, DownloadDict, DOWNLOAD_LOCATION,
-                 EDIT_TIME, LOGGER, Creds_path)
+                 LOGGER)
 from bot.ariaHelper.ariaDownload import add_url
 from bot.ariaHelper.stauts import progress
 import time
-from pyrogram import Client, Filters, ContinuePropagation,StopPropagation
+from pyrogram import Client, Filters
 import aiohttp
 
 

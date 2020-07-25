@@ -2,8 +2,8 @@ from mega import Mega
 import os
 import asyncio
 from bot.helper.utils import Human_size
-from bot import DOWNLOAD_LOCATION, LOGGER, Creds_path,MegaDownloadList
-from bot.drivefunc.gdriveUpload import gupload,mydrive
+from bot import DOWNLOAD_LOCATION, LOGGER, MegaDownloadList
+from bot.drivefunc.gdriveUpload import mydrive
 from pyrogram import Client, Filters
 
 

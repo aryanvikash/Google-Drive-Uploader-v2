@@ -1,4 +1,4 @@
-from pyrogram import Client, Filters
+from pyrogram import Client
 from bot.drivefunc.Tokenverify import token_verify
 from bot.drivefunc.Tokenverify import filter_token
 

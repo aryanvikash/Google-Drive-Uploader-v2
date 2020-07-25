@@ -1,12 +1,11 @@
-from bot.helper.utils import (is_magnet, is_url)
+from bot.helper.utils import (is_magnet)
 import os
-from bot import (aria2, DownloadDict, DOWNLOAD_LOCATION,
-                 EDIT_TIME, LOGGER, Creds_path)
-from bot.ariaHelper.ariaDownload import add_url,add_torrent
+from bot import (aria2, DownloadDict, DOWNLOAD_LOCATION)
+from bot.ariaHelper.ariaDownload import add_torrent
 from bot.ariaHelper.stauts import progress
 import time
 from bot.customFilters.admin_filter import is_admin
-from pyrogram import Client, Filters, ContinuePropagation
+from pyrogram import Client, Filters
 
 
 

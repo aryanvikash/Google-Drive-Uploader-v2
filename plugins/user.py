@@ -1,7 +1,7 @@
 
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
-from bot import Creds_path, LOGGER
+from bot import Creds_path
 import os
 import os.path as path
 from bot.helper.utils import Human_size

@@ -1,7 +1,6 @@
 
-import os
 import config
-from pyrogram import Client, Filters, MessageHandler, CallbackQueryHandler
+from pyrogram import Client
 
 
 
