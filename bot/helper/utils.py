@@ -41,11 +41,11 @@ def listdir(mypath):
     return files ,directory
 
 def mapPath(filenames):
-  list = []
+  lists = []
   for file in filenames :
     dir = os.path.join("./",file)
-    list.append(dir)
-  return list
+    lists.append(dir)
+  return lists
 
 # print(f)
 # print(d)
