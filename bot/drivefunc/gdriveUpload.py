@@ -1,14 +1,7 @@
 #!/usr/bin/env python3
 
 
-import asyncio
-import argparse
-import json
-import os
 import os.path as path
-import re
-
-from bot.helper.utils import listdir
 
 from bot import Creds_path ,LOGGER
 from pydrive.auth import GoogleAuth

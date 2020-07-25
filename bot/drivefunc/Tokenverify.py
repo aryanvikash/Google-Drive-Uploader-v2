@@ -1,9 +1,8 @@
 
 import os
 from pydrive.auth import GoogleAuth
-from pydrive.drive import GoogleDrive
 import psycopg2
-from pyrogram import Client ,Filters
+from pyrogram import Filters
 from bot import Post_url, Creds_path, LOGGER
 from pyrogram import Filters
 

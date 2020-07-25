@@ -1,6 +1,4 @@
 from pyrogram import Client, Filters, StopPropagation,InlineKeyboardButton, InlineKeyboardMarkup
-from bot.helper.check_channel import inChannel
-from bot.helper.send_join import sendJoinmsg
 
 
 @Client.on_message(Filters.command(["start"] ), group=-2)

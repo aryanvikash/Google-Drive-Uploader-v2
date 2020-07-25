@@ -2,9 +2,7 @@
 from bot.drivefunc.gdriveUpload import mydrive
 import asyncio
 from bot.helper.utils import Human_size
-from pyrogram import Client, Filters,StopPropagation
-from bot.helper.check_channel import inChannel
-from bot.helper.send_join import sendJoinmsg
+from pyrogram import Client, Filters
 
 
 @Client.on_message(Filters.regex(r"^https://drive.google.com"))

@@ -1,8 +1,6 @@
 import asyncio
-import aria2p
 import os
 from bot import EDIT_TIME,LOGGER
-from threading import Thread
 from bot.drivefunc.gdriveUpload import gupload
 import asyncio
 from bot import DOWNLOAD_LOCATION, Creds_path

@@ -1,4 +1,4 @@
-from pyrogram import Client, Filters, StopPropagation,InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram import Client, Filters
 
 @Client.on_callback_query(Filters.callback_data("test"))
 async def dta_catch(c, m):

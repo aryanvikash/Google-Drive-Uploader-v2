@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 # https://github.com/Sorrow446/ZS-DL
-import os
 import re
-import sys
 import json
 import time
 

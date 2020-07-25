@@ -1,7 +1,4 @@
-from bot import Creds_path
 from pyrogram import Filters
-import os
-import requests
 
 
 def is_zippy():
