@@ -33,17 +33,17 @@ def filter_token():
     return Filters.create(is_token, "TokenFilterCreate")
 
 
-def is_token(m):
-    token = m.text
-    # token = token.split()[-1]
-
-    if len(token) == 57:
-        if token[1] == "/":
-            return True
-        else:
-            return False
-    else:
-        return False
+# def is_token(m):
+#     token = m.text
+#     # token = token.split()[-1]
+#
+#     if len(token) == 57:
+#         if token[1] == "/":
+#             return True
+#         else:
+#             return False
+#     else:
+#         return False
 
 
 # @Client.on_message(filter_token())
@@ -65,7 +65,7 @@ async def token_verify(_, message):
                 Auth = file.read()
                 file.close()
                 cur.execute(
-                    '''SELECT AUTH FROM USERINFO WHERE chat_id = %s ''', (chat_id))
+                    '''SELECT AUTH FROM USERINFO WHERE chat_id = %s ''', (chat_id,))
                 row = cur.fetchone()
                 if row is None:
                     query = "INSERT INTO USERINFO (chat_id, AUTH) VALUES (%s,%s)"

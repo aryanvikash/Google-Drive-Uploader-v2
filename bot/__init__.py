@@ -11,6 +11,7 @@ logging.basicConfig(
     handlers=[logging.FileHandler('log.txt'), logging.StreamHandler()]
 )
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
+logging.getLogger("pydrive").setLevel(logging.ERROR)
 
 
 LOGGER = logging.getLogger(__name__)
