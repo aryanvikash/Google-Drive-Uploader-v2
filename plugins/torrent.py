@@ -2,7 +2,7 @@ from bot.helper.utils import (is_magnet)
 import os
 from bot import (aria2, DownloadDict, DOWNLOAD_LOCATION)
 from bot.ariaHelper.ariaDownload import add_torrent
-from bot.ariaHelper.stauts import progress
+from bot.ariaHelper.status import progress
 import time
 from bot.customFilters.admin_filter import is_admin
 from pyrogram import Client, Filters
@@ -36,6 +36,6 @@ async def torrent_(client, message):
         if download:
             DownloadDict[uid] = download  # Download contains gid
             print("UID:", message.from_user.id)
-            await progress(aria2=aria2, gid=DownloadDict[uid], event=sentm, ID=current_user_id)
+            await progress(aria2=aria2, gid=DownloadDict[uid], event=sentm, user_id=current_user_id)
 
         # await message.reply_text("You Are Not Authorised use /login 😞")

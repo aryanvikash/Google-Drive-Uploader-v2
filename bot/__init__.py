@@ -6,11 +6,13 @@ import config
 from pyrogram import Client , Filters
 
 logging.basicConfig(
-    level=logging.ERROR,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s" ,
+    level=logging.WARNING,
+    format="%(asctime)s - %(name)s - %(lineno)d -%(filename)s - %(levelname)s -%(message)s" ,
     handlers=[logging.FileHandler('log.txt'), logging.StreamHandler()]
 )
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
+
+
 LOGGER = logging.getLogger(__name__)
 # os.system("bash aria.sh")
 adminList = config.adminList
