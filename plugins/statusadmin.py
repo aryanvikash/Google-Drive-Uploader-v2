@@ -1,12 +1,11 @@
-from bot import aria2, LOGGER
 from pyrogram import Client, Filters
-from bot.customFilters.admin_filter import is_admin
+from bot import aria2, LOGGER, adminList
 
 
 # TODO Add all running downloads in status
 
 
-@Client.on_message(Filters.command(["status"]) & is_admin)
+@Client.on_message(Filters.command(["status"]) & Filters.user(adminList))
 async def show_status(_, message):
     files = aria2.get_downloads()
 

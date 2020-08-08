@@ -1,17 +1,17 @@
 from bot.helper.utils import (is_magnet)
 import os
-from bot import (aria2, DownloadDict, DOWNLOAD_LOCATION)
+from bot import (aria2, DownloadDict, DOWNLOAD_LOCATION,adminList)
 from bot.ariaHelper.ariaDownload import add_torrent
 from bot.ariaHelper.status import progress
 import time
-from bot.customFilters.admin_filter import is_admin
+
 from pyrogram import Client, Filters
 
 
 
 
 
-@Client.on_message(Filters.regex(r"^magnet:\?xt=urn:btih:[a-zA-Z0-9]*")& is_admin())
+@Client.on_message(Filters.regex(r"^magnet:\?xt=urn:btih:[a-zA-Z0-9]*")& Filters.user[adminList])
 async def torrent_(client, message):
     print("magnet added")
     current_user_id = message.from_user.id

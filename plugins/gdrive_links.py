@@ -53,6 +53,7 @@ def driveclone(url, user_id):
 
 def getId(link):
     link = link.translate({ord('&'): None}).replace("export=download", " ").strip()
+    link = link.replace("")
     if link.find("view") != -1:
         file_id = link.split('/')[-2]
     elif link.find("open?id=") != -1:

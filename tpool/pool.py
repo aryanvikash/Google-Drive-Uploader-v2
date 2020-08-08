@@ -3,9 +3,8 @@ from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor, Future
 
 from functools import wraps
 
-_THREAD_POOL = ThreadPoolExecutor()
+_THREAD_POOL = ThreadPoolExecutor(max_workers=50)
 _PROCESS_POOL = ProcessPoolExecutor()
-
 
 
 def run_in_thread(f, executor=None):

@@ -1,11 +1,11 @@
-from bot.helper.progress_pyro import get_progress
+from bot.util.progress_pyro import get_progress
 import time
 
 from bot import LOGGER , TgFileDownloadlist
 from pyrogram import Client, Filters,StopPropagation , InlineKeyboardButton, InlineKeyboardMarkup
 from bot.drivefunc.Tokenverify import token_make
-from bot.helper.check_channel import inChannel
-from bot.helper.send_join import sendJoinmsg
+from bot.util.check_channel import inChannel
+from bot.util.send_join import sendJoinmsg
 from bot.uploadHandler.upload import upload_handler
 
 

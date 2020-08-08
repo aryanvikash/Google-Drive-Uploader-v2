@@ -5,7 +5,7 @@ import os
 from googleapiclient.errors import HttpError
 
 from bot.drivefunc.gdriveUpload import mydrive
-from bot.helper.utils import Human_size
+from bot.util.utils import Human_size
 from tpool.pool import run_in_thread
 
 

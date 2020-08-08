@@ -1,4 +1,4 @@
-from bot.helper.utils import (is_url)
+from bot.util.utils import (is_url)
 import os
 from bot import (aria2, DownloadDict, DOWNLOAD_LOCATION,
                  LOGGER)
