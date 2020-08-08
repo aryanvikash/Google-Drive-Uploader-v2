@@ -88,7 +88,7 @@ def token_make(_, message):
         conn = psycopg2.connect(Post_url)
         cur = conn.cursor()
         cur.execute(
-            '''SELECT AUTH FROM USERINFO WHERE user_id = %s''', (user_id,))
+            '''SELECT AUTH FROM USERINFO WHERE chat_id = %s''', (user_id,))
         row = cur.fetchone()
         if row is not None:
             A = row[0]
