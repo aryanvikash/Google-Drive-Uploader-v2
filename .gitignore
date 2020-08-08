@@ -5,4 +5,5 @@ __pycache__/
 creds/*
 log.txt
 venv
-
+.idea
+.vscode
