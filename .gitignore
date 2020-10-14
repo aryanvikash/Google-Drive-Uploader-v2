@@ -4,6 +4,7 @@
 
 
 #bot stuffs
+*.session-journal
 *.session
 __pycache__/
 Downloads/*

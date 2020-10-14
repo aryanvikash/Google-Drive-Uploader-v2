@@ -11,6 +11,8 @@ from bot.uploadHandler.upload import upload_handler
 
 async def progress(sentm, uuid):
     prev_msg = None
+    CancelButton = InlineKeyboardMarkup(
+                    [[InlineKeyboardButton("cancel", callback_data=f"cancel||{uuid}")]])
     try:
         while await dl.is_active(uuid):
             file = await dl.status(uuid)
@@ -19,8 +21,7 @@ async def progress(sentm, uuid):
 
             await sentm.edit(msg)
             if msg != prev_msg and msg is not None:
-                CancelButton = InlineKeyboardMarkup(
-                    [[InlineKeyboardButton("cancel", callback_data=f"cancel||{uuid}")]])
+
                 try:
 
                     await sentm.edit(msg, reply_markup=CancelButton)
