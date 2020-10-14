@@ -1,4 +1,4 @@
-from mega import Mega
+
 import os
 import asyncio
 
@@ -21,9 +21,9 @@ async def mega_download(c, message):
         return
 
     sentm = await message.reply_text("Downloading... keep patients You will get an error or file 😘 ")
-    loop = asyncio.get_event_loop()
+    # loop = asyncio.get_event_loop()
 
-    name, megaerror, isFolder = await megatool(url)
+    name, megaerror, isFolder = await megaTool(url)
 
     if megaerror:
         LOGGER.error(megaerror)
@@ -40,19 +40,19 @@ async def mega_download(c, message):
     return
 
 
-def async_megadl(url):
-    mega = Mega()
-    mag = mega.login("bearyan8@yandex.com", "bearyan8@yandex.com")
-    try:
-        name = mag.download_url(url)
-    except Exception as e:
-        LOGGER.error(e)
-
-    LOGGER.info(f"Mega  {name} Download Completed Now uploading...")
-
-    return name
-
-    # await loop.run_in_executor(None, gupload,filename,ID)
+# def async_megadl(url):
+#     mega = Mega()
+#     mag = mega.login("bearyan8@yandex.com", "bearyan8@yandex.com")
+#     try:
+#         name = mag.download_url(url)
+#     except Exception as e:
+#         LOGGER.error(e)
+#
+#     LOGGER.info(f"Mega  {name} Download Completed Now uploading...")
+#
+#     return name
+#
+#      await loop.run_in_executor(None, gupload,filename,ID)
 
 
 def driveupload(path, ID):
@@ -61,7 +61,7 @@ def driveupload(path, ID):
     return drivelink
 
 
-async def megatool(url):
+async def megaTool(url):
     if "folder/" in url:
         link = url.replace("#", "!").replace("folder/", "#F!")
     elif "file/" in url:

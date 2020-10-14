@@ -1,15 +1,23 @@
-aria2p>=0.9.1,<0.10.0
+
+# database
 psycopg2-binary
+
+# gdrive
 pydrive
+httplib2==0.15.0
+
+# scrapping and parser
 bs4
 lxml
-aiohttp
-TgCrypto
-httplib2==0.15.0
-mega.py
+
+#Downloader
+pyaiodl
+
+
 requests
+
 # pyrogram
 https://github.com/pyrogram/pyrogram/archive/asyncio.zip
-
+TgCrypto
 
 

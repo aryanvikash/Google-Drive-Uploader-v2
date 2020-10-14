@@ -4,9 +4,8 @@ import aiohttp
 from bs4 import BeautifulSoup as soup
 from pyrogram import Client, Filters
 
-from bot import aria2, DOWNLOAD_LOCATION, DownloadDict
-from bot.ariaHelper.ariaDownload import add_url
-from bot.ariaHelper.status import progress
+from bot import  DOWNLOAD_LOCATION, DownloadDict,dl
+from bot.downloader_helper.handler import progress
 
 
 @Client.on_message(Filters.regex(r"mediafire\.com\S"))
@@ -15,15 +14,11 @@ async def mediafire(_, message):
     url = url.split(" ")[-1]
     user_id = str(message.from_user.id)
     sentm = await message.reply_text("`Mediafire Link Processing ...`")
-    try:
-        directLink = await mediafireLink(url)
-        download = await add_url(aria2, directLink, DOWNLOAD_LOCATION)
-        if download:
-            DownloadDict[user_id] = download  # Download contains gid
-            await progress(aria2=aria2, gid=DownloadDict[user_id], event=sentm, user_id=user_id)
-    except Exception as e:
-        print(e)
-        await sentm.edit(e)
+
+    #Downloader
+    directLink = await mediafireLink(url)
+    uuid = await dl.download(directLink)
+    await progress(sentm=sentm,uuid=uuid)
 
 
 async def mediafireLink(url):

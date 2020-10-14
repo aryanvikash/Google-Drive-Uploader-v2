@@ -1,12 +1,12 @@
-from bot.util.utils import (is_url)
 import os
-from bot import (aria2, DownloadDict, DOWNLOAD_LOCATION,
-                 LOGGER)
-from bot.ariaHelper.ariaDownload import add_url
-from bot.ariaHelper.status import progress
 import time
-from pyrogram import Client, Filters,ContinuePropagation
-import aiohttp
+
+from pyrogram import Client, Filters, ContinuePropagation
+
+from bot import (dl, DOWNLOAD_LOCATION,
+                 LOGGER)
+from bot.downloader_helper.handler import progress
+from bot.util.utils import (is_url)
 
 
 # async def direct_link_checker_async(_, m):
@@ -31,8 +31,7 @@ import aiohttp
 @Client.on_message(Filters.regex(r"^(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+"))
 async def mirror(_, message):
     if "zippyshare.com" in message.text or "mediafire" in message.text:
-        print("link zip")
-        raise  ContinuePropagation
+        raise ContinuePropagation
     # is_direct = await direct_link_checker_async(client, message)
     # if not is_direct:
     #     print("Not direct link")
@@ -52,10 +51,7 @@ async def mirror(_, message):
     msg = message.text.strip()
 
     if msg is not None and is_url(msg):
-        download = await add_url(aria2, msg, new_download_location)
-        if download:
-            DownloadDict[user_id] = download  # Download contains gid
-            LOGGER.info(f"download Added by :",download)
-            await progress(aria2=aria2, gid=DownloadDict[user_id], event=sentm, user_id=user_id)
+        uuid = await dl.download(url=msg)
+        LOGGER.info(f"{uuid} Download Added !!")
+        await progress(sentm=sentm, uuid=uuid)
 
-        # await message.reply_text("You Are Not Authorised use /login 😞")

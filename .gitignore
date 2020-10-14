@@ -1,9 +1,19 @@
-Downloads/*
-*.session
-__pycache__/
-*.pyc
-creds/*
-log.txt
-venv
+#ide stuffs
 .idea/
 .vscode/
+
+
+#bot stuffs
+*.session
+__pycache__/
+Downloads/*
+*.pyc
+creds/*
+
+# Logger
+log.txt
+
+#virualenv
+venv
+
+

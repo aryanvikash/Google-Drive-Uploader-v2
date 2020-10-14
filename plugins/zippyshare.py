@@ -3,13 +3,14 @@
 
 from pyrogram import Client, Filters
 
-from bot import aria2, DOWNLOAD_LOCATION, DownloadDict, LOGGER
-from bot.ariaHelper.ariaDownload import add_url
-from bot.ariaHelper.status import progress
+from bot import dl, DOWNLOAD_LOCATION, DownloadDict, LOGGER
+
 
 # zippy
 import re
 import time
+
+from bot.downloader_helper.handler import progress
 from tpool.pool import run_in_thread
 try:
     from urllib.parse import unquote
@@ -24,16 +25,11 @@ async def zippy(_, message):
     url = url.split(" ")[-1]
     user_id = str(message.from_user.id)
     sentm = await message.reply_text("`ZippyShare Link Processing ...`")
-    try:
-        directLink = await _zippylink(url)
 
-        download = await add_url(aria2, directLink, DOWNLOAD_LOCATION)
-        if download:
-            DownloadDict[user_id] = download  # Download contains gid
-            await progress(aria2=aria2, gid=DownloadDict[user_id], event=sentm, user_id=user_id)
-    except Exception as e:
-        LOGGER.error(e)
-        await sentm.edit(e)
+    directLink = await _zippylink(url)
+
+    uuid = await dl.download(directLink)
+    await progress(sentm=sentm,uuid=uuid)
 
 
 
