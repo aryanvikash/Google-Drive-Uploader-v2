@@ -1,12 +1,13 @@
 from googleapiclient.errors import HttpError
 
 from bot import LOGGER
-from pyrogram import Client, Filters, InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram import Client, filters
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from bot.drivefunc.gdrive_clone_func import GdriveClone
 
 from tpool.pool import run_in_thread
 
-@Client.on_message(Filters.command("clone"))
+@Client.on_message(filters.command("clone"))
 async def clone_by_gdriveid(_, m):
 
     file_id = m.command[1]

@@ -1,7 +1,7 @@
 # !/usr/bin/env python3
 # https://github.com/Sorrow446/ZS-DL
 
-from pyrogram import Client, Filters
+from pyrogram import Client, filters
 
 from bot import dl, DOWNLOAD_LOCATION, DownloadDict, LOGGER
 
@@ -19,7 +19,7 @@ except ImportError:
 import requests
 
 
-@Client.on_message(Filters.regex(r"zippyshare\.com\S"))
+@Client.on_message(filters.regex(r"zippyshare\.com\S"))
 async def zippy(_, message):
     url = message.text.strip()
     url = url.split(" ")[-1]

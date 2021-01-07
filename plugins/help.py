@@ -1,7 +1,7 @@
-from pyrogram import Client, Filters, StopPropagation
+from pyrogram import Client, filters, StopPropagation
 
 
-@Client.on_message(Filters.command(["help"]), group=-2)
+@Client.on_message(filters.command(["help"]), group=-2)
 async def help_text(_, m):
     msg = ""
     msg += "/login - `Login Account` \n"

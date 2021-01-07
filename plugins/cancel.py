@@ -1,11 +1,11 @@
 import os
 
 from pyaiodl.errors import DownloadNotActive
-from pyrogram import Client, Filters
+from pyrogram import Client, filters
 from bot import (LOGGER, dl)
 
 
-@Client.on_callback_query(Filters.regex("^cancel"))
+@Client.on_callback_query(filters.regex("^cancel"))
 async def cancel_aria(c, m):
     cb_data = m.data
     if cb_data.startswith("cancel"):

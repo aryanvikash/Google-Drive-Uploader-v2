@@ -3,12 +3,13 @@ from googleapiclient.errors import HttpError
 from bot import LOGGER
 from bot.drivefunc.gdrive_clone_func import GdriveClone
 
-from pyrogram import Client, Filters, InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram import Client, filters
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from tpool.pool import run_in_thread
 
 
-@Client.on_message(Filters.regex(r"^https://drive.google.com"))
+@Client.on_message(filters.regex(r"^https://drive.google.com"))
 async def clone_to_gdrive(_, m):
     user_id = m.from_user.id
 

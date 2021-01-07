@@ -1,7 +1,7 @@
 import os
 import time
 
-from pyrogram import Client, Filters, ContinuePropagation
+from pyrogram import Client, filters, ContinuePropagation
 
 from bot import (dl, DOWNLOAD_LOCATION,
                  LOGGER)
@@ -28,7 +28,7 @@ from bot.util.utils import (is_url)
 #     return True
 
 
-@Client.on_message(Filters.regex(r"^(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+"))
+@Client.on_message(filters.regex(r"^(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+"))
 async def mirror(_, message):
     if "zippyshare.com" in message.text or "mediafire" in message.text:
         raise ContinuePropagation

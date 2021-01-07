@@ -41,7 +41,7 @@ else:
     # Post_url = "postgres://mrifmlre:anINuwfZgJRFc_7YXfbW6XqJ4RhcEg17@salt.db.elephantsql.com:5432/mrifmlre"
 
 DownloadDict = {}
-TgFileDownloadlist = []
+TgFileDownloadlist = {}
 MegaDownloadList = []
 Creds_path = config.Creds_path
 DOWNLOAD_LOCATION = config.DOWNLOAD_LOCATION

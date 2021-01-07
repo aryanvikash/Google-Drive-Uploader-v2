@@ -16,8 +16,8 @@ pyaiodl
 
 requests
 
-# pyrogram
-https://github.com/pyrogram/pyrogram/archive/asyncio.zip
+pyrogram
+# https://github.com/pyrogram/pyrogram/archive/asyncio.zip
 TgCrypto
 
 

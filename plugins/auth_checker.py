@@ -1,4 +1,5 @@
-from pyrogram import Client, Message, StopPropagation
+from pyrogram import Client, StopPropagation
+from pyrogram.types import Message
 from bot.drivefunc.Tokenverify import  token_make
 from bot.util.check_channel import inChannel
 from bot.util.send_join import sendJoinmsg
@@ -11,7 +12,9 @@ async def checkauthfunc(c: Client, m: Message):
     if not await inChannel(c, m):
         await sendJoinmsg(m)
         raise StopPropagation
-    is_token = re.match(r"\w/(.{55})", m.text)
+    if not m.text:
+        return
+
     if is_token:
         return
     is_created = token_make(c, m)

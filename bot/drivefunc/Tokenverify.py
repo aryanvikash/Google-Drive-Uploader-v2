@@ -1,7 +1,7 @@
 import os
 from pydrive.auth import GoogleAuth
 import psycopg2
-from pyrogram import Filters
+from pyrogram import filters
 from bot import Post_url, Creds_path, LOGGER
 
 # conn = psycopg2.connect(DATABASE_URL)
@@ -30,7 +30,7 @@ def filter_token():
         else:
             return False
 
-    return Filters.create(is_token, "TokenFilterCreate")
+    return filters.create(is_token, "TokenFilterCreate")
 
 
 # def is_token(m):

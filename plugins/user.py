@@ -5,11 +5,11 @@ from bot import Creds_path
 import os
 import os.path as path
 from bot.util.utils import Human_size
-from pyrogram import Client, Filters, StopPropagation
+from pyrogram import Client, filters, StopPropagation
 from bot.drivefunc.Tokenverify import token_make
 
 
-@Client.on_message(Filters.command(["info"]), group=-2)
+@Client.on_message(filters.command(["info"]), group=-2)
 async def user_info(c, m):
     token_make(c, m)
     ID = str(m.from_user.id)

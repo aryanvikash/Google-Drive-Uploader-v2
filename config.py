@@ -1,10 +1,10 @@
 DOWNLOAD_LOCATION = "./Downloads"
 
-BOT_TOKEN = "955851494:AAFkpvw9al87ipPVJU9i28eyfTN86dAclkI" #gdriveupme_bot
-# BOT_TOKEN = "894269743:AAH3OAtoNulAMPwJg-Cp4zAGBxGazTlzn38"  #  @aryantest_bot
+# BOT_TOKEN = "955851494:AAFkpvw9al87ipPVJU9i28eyfTN86dAclkI" #gdriveupme_bot
+BOT_TOKEN = "894269743:AAH3OAtoNulAMPwJg-Cp4zAGBxGazTlzn38"  #  @aryantest_bot
 
-APP_ID = "1278490"
-API_HASH = "69d16301a6ce2d3b68b81e5f881bfca7"
+APP_ID = "2861792"
+API_HASH = "70d5679ed956d7832f8dd462643f7028"
 AUTH_GROUP = ""
 
 Creds_path = "creds"

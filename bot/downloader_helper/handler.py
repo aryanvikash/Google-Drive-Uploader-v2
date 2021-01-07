@@ -2,7 +2,7 @@ import asyncio
 import os
 
 from pyaiodl.errors import InvalidId, DownloadNotActive
-from pyrogram import InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from bot import dl, EDIT_TIME, LOGGER, DOWNLOAD_LOCATION
 

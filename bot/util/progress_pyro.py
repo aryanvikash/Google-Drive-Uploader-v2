@@ -2,17 +2,22 @@
 import math
 import time
 
-from bot import LOGGER
+from bot import LOGGER,TgFileDownloadlist
 
-
+from pyrogram.types import InlineKeyboardMarkup,InlineKeyboardButton
 async def get_progress(
     current,
     total,
     ud_type,
     message,
-    start
+    start,
+    client,
+    userid
 ):
     LOGGER.info("Telegram File Download Started ")
+    if TgFileDownloadlist[userid] == False:
+            LOGGER.info(f"Telegram File Downloading Cancelled By {userid}")
+            client.stop_transmission()
     now = time.time()
     diff = now - start
     if round(diff % 10.00) == 0 or current == total:
@@ -31,21 +36,16 @@ async def get_progress(
             ''.join(["○" for _ in range(20 - math.floor(percentage / 5))]),
             round(percentage, 2))
 
-        tmp = progress + "`{0}` of `{1}`\nSpeed: `{2}`/s\nETA: `{3}`\n".format(
-            humanbytes(current),
-            humanbytes(total),
-            humanbytes(speed),
-            # elapsed_time if elapsed_time != '' else "0 s",
-            estimated_total_time if estimated_total_time != '' else "0 s"
-        )
+        tmp = progress + f"`{humanbytes(current)}` of `{humanbytes(total)}`\nSpeed: `{humanbytes(speed)}`/s\nETA: `{estimated_total_time if estimated_total_time != '' else '0 s'}`\n"
+
 
         try:
-            await message.edit(
-                text="{}\n {}".format(
-                    ud_type,
-                    tmp
-                )
-            )
+            cancelButton = InlineKeyboardMarkup(
+            [
+                [InlineKeyboardButton("Cancel", callback_data = f"tgcancel||{userid}" )]
+            ]
+        )
+            await message.edit(text=f"{ud_type}\n {tmp}",reply_markup=cancelButton)
         except Exception:
             pass
 

@@ -2,7 +2,7 @@ import os
 # from plugins.support import TEXT
 import psycopg2
 from bot import Post_url, Creds_path, LOGGER
-from pyrogram import Client, Filters
+from pyrogram import Client, filters
 
 conn = psycopg2.connect(Post_url)
 cur = conn.cursor()
@@ -16,7 +16,7 @@ cur.execute('''CREATE TABLE IF NOT EXISTS USERINFO
 conn.commit()
 
 
-@Client.on_message(Filters.command(["logout"]))
+@Client.on_message(filters.command(["logout"]))
 async def revoke(client, message):
     ID = str(message.from_user.id)
     chat_id = message.from_user.id

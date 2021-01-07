@@ -4,17 +4,17 @@ import asyncio
 
 from bot import DOWNLOAD_LOCATION, LOGGER, MegaDownloadList
 from bot.drivefunc.gdriveUpload import mydrive
-from pyrogram import Client, Filters
+from pyrogram import Client, filters
 
 from bot.uploadHandler.upload import upload_handler
 
 
-@Client.on_message(Filters.regex(r"^https://mega."))
+@Client.on_message(filters.regex(r"^https://mega."))
 async def mega_download(c, message):
     user_id = str(message.from_user.id)
     url = message.text.strip()
-    # await message.reply_text("No Support For Mega links😒 ")
-    # return
+    await message.reply_text("No Support For Mega links 😒 ")
+    return
     if user_id in MegaDownloadList:
         await message.reply_text(
             "`currently We Limit Mega Download To single Download At a Time !! Please Wait For Complete It ....`")

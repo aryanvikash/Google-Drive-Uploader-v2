@@ -1,37 +1,57 @@
 from bot.util.progress_pyro import get_progress
 import time
-
+import asyncio
 from bot import LOGGER , TgFileDownloadlist
-from pyrogram import Client, Filters,StopPropagation , InlineKeyboardButton, InlineKeyboardMarkup
+
+from pyrogram import Client, filters,StopPropagation
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.errors import FloodWait
+
 from bot.drivefunc.Tokenverify import token_make
 from bot.util.check_channel import inChannel
 from bot.util.send_join import sendJoinmsg
 from bot.uploadHandler.upload import upload_handler
 
 
-@Client.on_message(Filters.media)
+@Client.on_message(filters.media)
 async def Document_Downloader(client, message):
 
     await extrastuffs(client,message)
     user_id = str(message.from_user.id)
-    if user_id in TgFileDownloadlist:
-        await message.reply_text(
-            "`Multiple Telegram File Download is Not allowed at a same time !!"
-            "\nPlease Wait For Complete Your Download `")
-        return
-    sentm = await message.reply_text("Processing Your File....")
+
+    try:
+        if TgFileDownloadlist[user_id]:
+            await message.reply_text(
+                "`Multiple Telegram File Download is Not allowed at a same time !!"
+                "\nPlease Wait For Complete Your Download `")
+            return
+    except :
+        pass
+        
+    sentm = await message.reply_text("Hold on !! Preparing For Download...")
     s_time = time.time()
     try:
-        TgFileDownloadlist.append(user_id)
+        TgFileDownloadlist[user_id]={}
+        TgFileDownloadlist[user_id] = True
+        # print(sentm)
+        # return
         filename = await message.download(progress=get_progress, progress_args=(
-                        "Download Started ...", sentm, s_time))
+                        "Downloading", sentm, s_time,client,user_id))
         if filename is not None:
             await upload_handler(filename, sentm)
-    except Exception as e:
-        LOGGER.error(e)
-        await sentm.edit(e)
+
+        else:
+            await sentm.edit(f"`Download Cancelled`")
+        
+    except FloodWait as fw:
+        LOGGER.error(fw)
+        await sentm.edit(f"`FloodWait Sleeping For {fw}`")
+        await asyncio.sleep(fw)
+
+
+        
     finally:
-        TgFileDownloadlist.remove(user_id)
+        TgFileDownloadlist[user_id] = False
 
 
             

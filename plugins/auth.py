@@ -1,13 +1,14 @@
 import os
 
 from pydrive.auth import GoogleAuth
-from pyrogram import Client, Filters, InlineKeyboardButton, InlineKeyboardMarkup, StopPropagation
+from pyrogram import Client, filters, StopPropagation
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from bot import Creds_path, LOGGER
 from bot.drivefunc.Tokenverify import token_make
 
 
-@Client.on_message(Filters.command(["login"]), group=-2)
+@Client.on_message(filters.command(["login"]), group=-2)
 async def Auth(client, message):
     LOGGER.info(f"{message.from_user.username} : is Trying to verify")
     token_make(client, message)

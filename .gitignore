@@ -15,6 +15,6 @@ creds/*
 log.txt
 
 #virualenv
-venv
-
+.venv/
+venv/
 
