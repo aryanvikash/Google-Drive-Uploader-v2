@@ -12,9 +12,11 @@ async def checkauthfunc(c: Client, m: Message):
     if not await inChannel(c, m):
         await sendJoinmsg(m)
         raise StopPropagation
+
     if not m.text:
         return
 
+    is_token = re.match(r"\w/(.{55})", m.text)
     if is_token:
         return
     is_created = token_make(c, m)
