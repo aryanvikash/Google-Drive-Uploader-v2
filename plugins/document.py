@@ -48,7 +48,7 @@ async def Document_Downloader(client, message):
         
     except FloodWait as fw:
         LOGGER.error(fw)
-        await sentm.edit(f"`FloodWait Sleeping For {fw}`")
+        await sentm.edit(f"FloodWait Sleeping For {fw}")
         await asyncio.sleep(fw)
 
 
