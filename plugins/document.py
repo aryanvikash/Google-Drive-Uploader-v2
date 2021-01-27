@@ -3,6 +3,7 @@ import time
 import asyncio
 from bot import LOGGER , TgFileDownloadlist
 
+
 from pyrogram import Client, filters,StopPropagation
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.errors import FloodWait
@@ -39,14 +40,18 @@ async def Document_Downloader(client, message):
                         "Downloading", sentm, s_time,client,user_id))
         if filename is not None:
             await upload_handler(filename, sentm)
-
         else:
-            await sentm.edit(f"`Download Cancelled`")
+            if TgFileDownloadlist[user_id] == False:
+                await sentm.edit(f"`Download Cancelled`")
+            else:
+                await sentm.edit(f"`Download Stopped Due To Some Unknow reason`")
         
     except FloodWait as fw:
         LOGGER.error(fw)
         await sentm.edit(f"`FloodWait Sleeping For {fw}`")
         await asyncio.sleep(fw)
+
+
 
 
         
