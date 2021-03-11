@@ -13,8 +13,8 @@ from bot.uploadHandler.upload import upload_handler
 async def mega_download(c, message):
     user_id = str(message.from_user.id)
     url = message.text.strip()
-    await message.reply_text("No Support For Mega links 😒 ")
-    return
+    # await message.reply_text("No Support For Mega links 😒 ")
+    # return
     if user_id in MegaDownloadList:
         await message.reply_text(
             "`currently We Limit Mega Download To single Download At a Time !! Please Wait For Complete It ....`")
