@@ -30,10 +30,12 @@ async def mega_download(c, message):
         await sentm.edit("`Wow you got an error 😮!!\n possible : Server Ip or file Download limit Over\n\n`#error")
         return
     if isFolder:
+        await sentm.edit("`uploading Folder`")
         for filename in name:
             await upload_handler(filename, sentm)
             LOGGER.info("mega Upload complete", filename)
     else:
+        await sentm.edit("`Wait uploading File !!`")
         filename = os.path.join(DOWNLOAD_LOCATION, name)
         await upload_handler(filename, sentm)
 
