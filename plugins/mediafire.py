@@ -6,8 +6,6 @@ from pyrogram import Client, filters
 
 from bot import  DOWNLOAD_LOCATION, DownloadDict,dl
 from bot.downloader_helper.handler import progress
-
-
 @Client.on_message(filters.regex(r"mediafire\.com\S"))
 async def mediafire(_, message):
     url = message.text.strip()

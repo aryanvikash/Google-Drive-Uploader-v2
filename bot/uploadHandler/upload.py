@@ -1,5 +1,5 @@
 import logging as LOGGER
-from  pyrogram.types import  InlineKeyboardButton,InlineKeyboardMarkup
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 import os
 
 from googleapiclient.errors import HttpError
@@ -13,11 +13,15 @@ async def upload_handler(file_path, sentm):
     user_id = str(sentm.chat.id)
     try:
         _uploadedFile = await __finalUpload(file_path, user_id)
-
         download_button = InlineKeyboardMarkup([
-            [InlineKeyboardButton("Download", url=f"https://drive.google.com/open?id={_uploadedFile['id']}")]
+            [InlineKeyboardButton(
+                "Download", url=f"https://drive.google.com/open?id={_uploadedFile['id']}")],
+            [InlineKeyboardButton(
+                "Delete permanent",callback_data=f"delete||{_uploadedFile['id']}" )],
+            [InlineKeyboardButton(
+                "Move To Trash", callback_data=f"trash||{_uploadedFile['id']}")],
         ])
-        await sentm.edit(f"Filename: `{_uploadedFile['title']}`\nSize: `{Human_size(_uploadedFile['fileSize'])}`",reply_markup=download_button)
+        await sentm.edit(f"Filename: `{_uploadedFile['title']}`\nSize: `{Human_size(_uploadedFile['fileSize'])}`", reply_markup=download_button)
     except HttpError as e:
         LOGGER.error(e)
         await sentm.edit(e._get_reason())
@@ -27,7 +31,6 @@ async def upload_handler(file_path, sentm):
     finally:
         os.remove(file_path)
         LOGGER.info("file Removed from disk")
-
 
 
 @run_in_thread
