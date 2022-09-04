@@ -1,15 +1,11 @@
 {
   "name": "Gdrive bot",
-  "description": "This is a telegram bot writen in Nodejs To mirror file in  Google Drive.",
+  "description": "Google Drive Bot.",
   "logo": "https://telegra.ph/file/6c67d32196700f6712af7.jpg",
-  "keywords": [
-    "googledrive"
-  ],
+  "keywords": ["googledrive"],
   "repository": "https://github.com/aryanvikash/Pyrogdrive",
   "success_url": "https://t.me/gdriveupme_bot",
-  "website": "https://github.com/aryanvikash/Pyrogdrive",  
-  "env": {
-    
-  },
+  "website": "https://github.com/aryanvikash/Pyrogdrive",
+  "env": {},
   "stack": "container"
 }
